@@ -1,0 +1,17 @@
+nb-card {
+  min-width: 20rem;
+  max-width: 40rem;
+  margin: 0 auto 2rem;
+}
+
+.title {
+  color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.location-item {
+  cursor: pointer;
+}
