@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnInit, OnChanges } from "@angular/core";
 import "style-loader!leaflet/dist/leaflet.css";
 import * as L from "leaflet";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { ApiService } from "src/app/api/api.service";
 import { AxiosService } from "src/app/api/axios.service";
 import { ILocation } from "src/app/interface/location.interface";
@@ -37,6 +37,19 @@ export class ListComponent implements AfterViewInit, OnInit {
     private apiService: ApiService,
     private axiosService: AxiosService
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+
+    this.router.events.subscribe(evt => {
+      if (evt instanceof NavigationEnd) {
+        // trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // if you need to scroll back to top, here is the right place
+        window.scrollTo(0, 0);
+      }
+    });
+
     this.filterForm = this.formBuilder.group({
       filterMonth: "",
       filterYear: ""
