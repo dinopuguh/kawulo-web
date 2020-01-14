@@ -10,7 +10,7 @@ import { FormBuilder } from "@angular/forms";
 
 interface Dropdown {
   value: number;
-  text: number;
+  text: string;
 }
 
 @Component({
@@ -60,13 +60,24 @@ export class ListComponent implements AfterViewInit, OnInit {
     this.year = +this.route.snapshot.paramMap.get("year");
 
     this.clusters = [];
-    this.months = [];
+    this.months = [
+      { value: 1, text: "January" },
+      { value: 2, text: "February" },
+      { value: 3, text: "March" },
+      { value: 4, text: "April" },
+      { value: 5, text: "May" },
+      { value: 6, text: "June" },
+      { value: 7, text: "July" },
+      { value: 8, text: "August" },
+      { value: 9, text: "September" },
+      { value: 10, text: "October" },
+      { value: 11, text: "November" },
+      { value: 12, text: "December" }
+    ];
     this.years = [];
-    for (let i = 1; i <= 12; i++) {
-      this.months.push({ text: i, value: i });
-    }
+
     for (let i = 2014; i <= 2020; i++) {
-      this.years.push({ text: i, value: i });
+      this.years.push({ text: i.toString(), value: i });
     }
   }
 
