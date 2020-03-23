@@ -3,7 +3,6 @@ import "style-loader!leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { ApiService } from "src/app/api/api.service";
-import { AxiosService } from "src/app/api/axios.service";
 import { ILocation } from "src/app/interface/location.interface";
 import { CLUSTER_RESTAURANT_API_URL } from "src/app/api/config";
 import { FormBuilder } from "@angular/forms";
@@ -34,8 +33,7 @@ export class ListComponent implements AfterViewInit, OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService,
-    private axiosService: AxiosService
+    private apiService: ApiService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
@@ -151,11 +149,10 @@ export class ListComponent implements AfterViewInit, OnInit {
     const url = `${CLUSTER_RESTAURANT_API_URL}${location_id}/${month}/${year}`;
 
     try {
-      this.clusters = await this.axiosService.get<any[]>({
-        url
-      });
-
-      console.log(this.clusters);
+      // this.clusters = await this.axiosService.get<any[]>({
+      //   url
+      // });
+      // console.log(this.clusters);
     } catch (err) {
       console.log(err);
     }
