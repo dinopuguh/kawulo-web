@@ -16,12 +16,12 @@ export class LocationComponent {
     console.log(data.locations);
   }
 
-  private select(location_id) {
+  private async select(location_id) {
     const today = new Date();
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
 
-    this.dialogRef.close();
-    this.router.navigateByUrl(`list/${location_id}/${month}/${year}`);
+    await this.dialogRef.close();
+    await this.router.navigateByUrl(`list/${location_id}/${month}/${year}`);
   }
 }

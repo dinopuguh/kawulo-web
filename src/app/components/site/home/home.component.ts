@@ -12,7 +12,6 @@ import { ILocation } from "src/app/interface/location.interface";
 })
 export class HomeComponent implements OnInit {
   searchForm;
-  private locations: any[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,18 +25,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSubmit(formValue) {
-    console.log(formValue.query);
+  async onSubmit(formValue) {
+    try {
+      const response = await this.apiService.getLocations(formValue.query);
 
-    this.apiService.getLocations(formValue.query).subscribe(
-      res => {
-        // console.log(res);
-        this.openDialog(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      this.openDialog(response);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   private openDialog(locations: ILocation[]): void {

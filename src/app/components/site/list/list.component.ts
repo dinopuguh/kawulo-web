@@ -6,6 +6,7 @@ import { ApiService } from "src/app/api/api.service";
 import { ILocation } from "src/app/interface/location.interface";
 import { CLUSTER_RESTAURANT_API_URL } from "src/app/api/config";
 import { FormBuilder } from "@angular/forms";
+import { ICluster } from "src/app/interface/cluster.interface";
 
 interface Dropdown {
   value: number;
@@ -17,7 +18,7 @@ interface Dropdown {
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.css"]
 })
-export class ListComponent implements AfterViewInit, OnInit {
+export class ListComponent implements OnInit {
   filterForm;
   private location_id: string;
   private month: number;
@@ -27,7 +28,7 @@ export class ListComponent implements AfterViewInit, OnInit {
   private map: L.Map;
   private marker: L.Marker;
   private location: ILocation;
-  private clusters: any[];
+  private clusters: ICluster[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,9 +42,7 @@ export class ListComponent implements AfterViewInit, OnInit {
 
     this.router.events.subscribe(evt => {
       if (evt instanceof NavigationEnd) {
-        // trick the Router into believing it's last link wasn't previously loaded
         this.router.navigated = false;
-        // if you need to scroll back to top, here is the right place
         window.scrollTo(0, 0);
       }
     });
@@ -81,16 +80,8 @@ export class ListComponent implements AfterViewInit, OnInit {
 
   async ngOnInit() {
     await this.getLocation(this.location_id);
-    await this.getClusters(this.location_id, this.month, this.year).then(() =>
-      this.markRestaurants(this.clusters)
-    );
-
-    if (this.clusters.length > 0) {
-      console.log("True");
-      await this.markRestaurants(this.clusters);
-    } else {
-      console.log("False");
-    }
+    await this.getClusters(this.location_id, this.month, this.year);
+    await this.markRestaurants(this.clusters);
   }
 
   ngAfterViewInit(): void {
@@ -106,31 +97,29 @@ export class ListComponent implements AfterViewInit, OnInit {
   }
 
   async getLocation(location_id: string) {
-    this.apiService.getLocationById(location_id).subscribe(
-      res => {
-        this.location = {
-          name: res.name,
-          location_id: res.location_id,
-          latitude: res.latitude,
-          longitude: res.longitude
-        };
-      },
-      err => {
-        console.log(err);
-      },
-      () => {
-        this.initMap(this.location.latitude, this.location.longitude);
-      }
-    );
+    try {
+      const response = await this.apiService.getLocationById(location_id);
+
+      this.location = {
+        Name: response.Name,
+        LocationId: response.LocationId,
+        Latitude: response.Latitude,
+        Longitude: response.Longitude
+      };
+
+      await this.initMap(this.location.Latitude, this.location.Longitude);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async initMap(latitude, longitude) {
+  async initMap(latitude: number, longitude: number) {
     this.map = L.map("map", {
       center: [latitude, longitude],
       zoom: 13
     });
 
-    const tiles = L.tileLayer(
+    const tiles = await L.tileLayer(
       "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         maxZoom: 18,
@@ -138,39 +127,28 @@ export class ListComponent implements AfterViewInit, OnInit {
       }
     );
 
-    tiles.addTo(this.map);
+    await tiles.addTo(this.map);
   }
 
-  private updateMap(latitude, longitude): void {
+  private updateMap(latitude: number, longitude: number): void {
     this.map.panTo(new L.LatLng(latitude, longitude));
   }
 
-  async getClusters(location_id, month, year) {
-    const url = `${CLUSTER_RESTAURANT_API_URL}${location_id}/${month}/${year}`;
-
+  async getClusters(location_id: string, month: number, year: number) {
     try {
-      // this.clusters = await this.axiosService.get<any[]>({
-      //   url
-      // });
-      // console.log(this.clusters);
+      const response = await this.apiService.getRestaurantClusters(
+        location_id,
+        month,
+        year
+      );
+
+      this.clusters = response;
     } catch (err) {
       console.log(err);
     }
-
-    // this.apiService.getRestaurantClusters(location_id, 10, 2016).subscribe(
-    //   res => {
-    //     this.clusters = res;
-    //   },
-    //   err => {
-    //     console.log(err);
-    //   },
-    //   () => {
-    //     console.log("Completed");
-    //   }
-    // );
   }
 
-  async markRestaurants(clusters: any[]) {
+  async markRestaurants(clusters: ICluster[]) {
     const icons = [
       "../../../assets/images/marker/restaurant-marker-red.png",
       "../../../assets/images/marker/restaurant-marker-yellow.png",
@@ -179,16 +157,14 @@ export class ListComponent implements AfterViewInit, OnInit {
 
     clusters.map(c => {
       this.marker = new L.Marker(
-        [+c.restaurant.latitude, +c.restaurant.longitude],
+        [+c.Restaurant.Latitude, +c.Restaurant.Longitude],
         {
-          title: c.restaurant.name,
-          icon: L.icon({ iconUrl: icons[c.new_cluster], iconSize: [40, 50] })
+          title: c.Restaurant.Name,
+          icon: L.icon({ iconUrl: icons[c.Cluster], iconSize: [40, 50] })
         }
       );
 
       this.marker.addTo(this.map);
-
-      console.log(c);
     });
   }
 

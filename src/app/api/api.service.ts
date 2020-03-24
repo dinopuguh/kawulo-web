@@ -7,6 +7,8 @@ import {
   CLUSTER_RESTAURANT_API_URL,
   LOCATION_API_URL
 } from "./config";
+import { ILocation } from "../interface/location.interface";
+import { ICluster } from "../interface/cluster.interface";
 
 @Injectable({
   providedIn: "root"
@@ -14,56 +16,49 @@ import {
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
-  private handleError<T>(operation = "operation", result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+  async getLocations(query: string): Promise<ILocation[]> {
+    try {
+      const url = LOCATION_SEARCH_API_URL + query;
 
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+      const httpOptions = {
+        headers: new HttpHeaders({
+          "Access-Control-Allow-Origin": "*"
+        })
+      };
+
+      return await this.http.get<ILocation[]>(url, httpOptions).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  getLocations(query: string): Observable<any[]> {
-    const url = LOCATION_SEARCH_API_URL + query;
+  async getLocationById(id: string): Promise<ILocation> {
+    try {
+      const url = LOCATION_API_URL + id;
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*"
-      })
-    };
+      const httpOptions = {
+        headers: new HttpHeaders({
+          "Access-Control-Allow-Origin": "*"
+        })
+      };
 
-    return this.http.get<any[]>(url, httpOptions).pipe(
-      tap(locations => console.log(locations)),
-      catchError(this.handleError("getLocations", []))
-    );
+      return await this.http.get<ILocation>(url, httpOptions).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  getLocationById(id: string): Observable<any> {
-    const url = LOCATION_API_URL + id;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*"
-      })
-    };
-
-    return this.http.get<any>(url, httpOptions).pipe(
-      tap(location => console.log(location)),
-      catchError(this.handleError("getLocation", []))
-    );
-  }
-
-  getRestaurantClusters(
+  async getRestaurantClusters(
     location: string,
     month: number,
     year: number
-  ): Observable<any> {
-    const url = `${CLUSTER_RESTAURANT_API_URL}${location}/${month}/${year}`;
+  ): Promise<ICluster[]> {
+    try {
+      const url = `${CLUSTER_RESTAURANT_API_URL}${location}/${month}/${year}`;
 
-    return this.http.get<any>(url).pipe(
-      tap(clusters => console.log(clusters)),
-      catchError(this.handleError("getRestaurants", []))
-    );
+      return await this.http.get<ICluster[]>(url).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

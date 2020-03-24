@@ -6,7 +6,7 @@
                 <div class="row detail-filter-wrap">
                     <div class="col-md-4 featured-responsive">
                         <div class="detail-filter-text">
-                            <p>{{clusters.length}} restaurants in <span>{{location.name}}</span></p>
+                            <p>{{clusters.length}} restaurants in <span>{{location.Name}}</span></p>
                         </div>
                     </div>
 
@@ -90,28 +90,28 @@
                 <div class="row light-bg detail-options-wrap">
                     <div *ngFor="let cluster of clusters" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
                         <div class="featured-place-wrap">
-                            <a href="detail.html">
-                                <img src="{{cluster.restaurant.photo.images.small.url}}" class="img-fluid" alt="#">
-                                <span [className]="cluster.new_cluster == 0 ? 'featured-rating' : (cluster.new_cluster == 1 ? 'featured-rating-orange' : 'featured-rating-green')"> <i class="ti-star" aria-hidden="true">{{cluster.new_cluster + 1}} </i> </span>
+                            <a href="#">
+                                <img src="{{cluster.Restaurant.Photo.Images.Large.Url}}" class="img-fluid" alt="#">
+                                <span [className]="cluster.Cluster == 0 ? 'featured-rating' : (cluster.Cluster == 1 ? 'featured-rating-orange' : 'featured-rating-green')"> <i class="ti-star" aria-hidden="true">{{cluster.Cluster + 1}} </i> </span>
                                 <div class="featured-title-box">
-                                    <h6>{{cluster.restaurant.name}}</h6>
-                                    <p>{{cluster.restaurant.rating}} </p> <span>• </span>
-                                    <p>{{cluster.restaurant.num_reviews}} Reviews</p> <span> • </span>
-                                    <p><span>{{cluster.restaurant.price_level}}</span></p>
+                                    <h6>{{cluster.Restaurant.Name}}</h6>
+                                    <p>{{cluster.Restaurant.Rating}} </p> <span>• </span>
+                                    <p>{{cluster.Restaurant.NumReviews}} Reviews</p> <span> • </span>
+                                    <p><span>{{cluster.Restaurant.PriceLevel}}</span></p>
                                     <ul>
                                         <li><span class="icon-location-pin"></span>
-                                            <p>{{cluster.restaurant.address}}</p>
+                                            <p>{{cluster.Restaurant.Address}}</p>
                                         </li>
                                         <li><span class="icon-screen-smartphone"></span>
-                                            <p>{{cluster.restaurant.phone}}</p>
+                                            <p>{{cluster.Restaurant.Phone}}</p>
                                         </li>
                                         <li><span class="icon-link"></span>
-                                            <p>{{cluster.restaurant.website}}</p>
+                                            <p>{{cluster.Restaurant.Website}}</p>
                                         </li>
 
                                     </ul>
                                     <div class="bottom-icons">
-                                        <div class="closed-now">{{cluster.restaurant.ranking}}</div>
+                                        <div class="closed-now">{{cluster.Restaurant.Ranking}}</div>
                                         <span class="ti-heart"></span>
                                         <span class="ti-bookmark"></span>
                                     </div>
