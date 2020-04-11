@@ -11,6 +11,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NbDialogModule } from "@nebular/theme";
 import { HomeModule } from "./components/site/home/home.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ReactiveFormsModule,
     AppRoutingModule,
     NbDialogModule.forRoot(),
+    NgApexchartsModule,
     HomeModule
   ],
   providers: [],

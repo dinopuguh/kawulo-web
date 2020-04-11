@@ -1,3 +1,8 @@
+import { ICluster } from "./cluster.interface";
+import { ITemporal } from "./temporal.interface";
+import { ISentiment } from "./sentiment.interface";
+import { IPrediction } from "./prediction.interface";
+
 export interface IRestaurant {
   ID?: string;
   LocationId: string;
@@ -22,6 +27,13 @@ export interface IRestaurant {
   LocationID: string;
   LocationObjectID: string;
   CreatedAt: Date;
+}
+
+export interface IRestaurantDetail {
+  Cluster: ICluster;
+  Temporal: ITemporal[];
+  Prediction: IPrediction;
+  Sentiment: ISentiment[];
 }
 
 interface IPhoto {

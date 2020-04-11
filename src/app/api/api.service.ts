@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
 import {
   LOCATION_SEARCH_API_URL,
   CLUSTER_RESTAURANT_API_URL,
-  LOCATION_API_URL
+  LOCATION_API_URL,
+  DETAIL_RESTAURANT_API_URL
 } from "./config";
-import { ILocation } from "../interface/location.interface";
-import { ICluster } from "../interface/cluster.interface";
+import { ILocation } from "../interfaces/location.interface";
+import { ICluster } from "../interfaces/cluster.interface";
+import { IRestaurantDetail } from "../interfaces/restaurant.interface";
 
 @Injectable({
   providedIn: "root"
@@ -57,6 +57,20 @@ export class ApiService {
       const url = `${CLUSTER_RESTAURANT_API_URL}${location}/${month}/${year}`;
 
       return await this.http.get<ICluster[]>(url).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getRestaurantDetail(
+    restaurant_id: string,
+    month: number,
+    year: number
+  ): Promise<IRestaurantDetail> {
+    try {
+      const url = `${DETAIL_RESTAURANT_API_URL}${restaurant_id}/${month}/${year}`;
+
+      return await this.http.get<IRestaurantDetail>(url).toPromise();
     } catch (error) {
       console.error(error);
     }

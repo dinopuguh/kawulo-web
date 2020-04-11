@@ -1,12 +1,11 @@
-import { Component, AfterViewInit, OnInit, OnChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import "style-loader!leaflet/dist/leaflet.css";
 import * as L from "leaflet";
-import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "src/app/api/api.service";
-import { ILocation } from "src/app/interface/location.interface";
-import { CLUSTER_RESTAURANT_API_URL } from "src/app/api/config";
+import { ILocation } from "src/app/interfaces/location.interface";
 import { FormBuilder } from "@angular/forms";
-import { ICluster } from "src/app/interface/cluster.interface";
+import { ICluster } from "src/app/interfaces/cluster.interface";
 
 interface Dropdown {
   value: number;
@@ -20,7 +19,7 @@ interface Dropdown {
 })
 export class ListComponent implements OnInit {
   filterForm;
-  private location_id: string;
+  private locationId: string;
   private month: number;
   private months: Dropdown[];
   private year: number;
@@ -36,23 +35,12 @@ export class ListComponent implements OnInit {
     private router: Router,
     private apiService: ApiService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
-      return false;
-    };
-
-    this.router.events.subscribe(evt => {
-      if (evt instanceof NavigationEnd) {
-        this.router.navigated = false;
-        window.scrollTo(0, 0);
-      }
-    });
-
     this.filterForm = this.formBuilder.group({
       filterMonth: "",
       filterYear: ""
     });
 
-    this.location_id = this.route.snapshot.paramMap.get("location_id");
+    this.locationId = this.route.snapshot.paramMap.get("location_id");
     this.month = +this.route.snapshot.paramMap.get("month");
     this.year = +this.route.snapshot.paramMap.get("year");
 
@@ -73,27 +61,15 @@ export class ListComponent implements OnInit {
     ];
     this.years = [];
 
-    for (let i = 2014; i <= 2020; i++) {
+    for (let i = 2014; i <= new Date().getFullYear(); i++) {
       this.years.push({ text: i.toString(), value: i });
     }
   }
 
   async ngOnInit() {
-    await this.getLocation(this.location_id);
-    await this.getClusters(this.location_id, this.month, this.year);
+    await this.getLocation(this.locationId);
+    await this.getClusters(this.locationId, this.month, this.year);
     await this.markRestaurants(this.clusters);
-  }
-
-  ngAfterViewInit(): void {
-    const tiles = L.tileLayer(
-      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        maxZoom: 18,
-        attribution: "Kawulo Map"
-      }
-    );
-
-    tiles.addTo(this.map);
   }
 
   async getLocation(location_id: string) {
@@ -128,10 +104,6 @@ export class ListComponent implements OnInit {
     );
 
     await tiles.addTo(this.map);
-  }
-
-  private updateMap(latitude: number, longitude: number): void {
-    this.map.panTo(new L.LatLng(latitude, longitude));
   }
 
   async getClusters(location_id: string, month: number, year: number) {
@@ -169,18 +141,15 @@ export class ListComponent implements OnInit {
   }
 
   private async setFilter(formValue) {
-    console.log(formValue);
-
     const selectedMonth = formValue.filterMonth;
     const selectedYear = formValue.filterYear;
 
     await this.router.navigateByUrl(
-      `list/${this.location_id}/${selectedMonth}/${selectedYear}`
+      `list/${this.locationId}/${selectedMonth}/${selectedYear}`
     );
-    await this.getClusters(this.location_id, selectedMonth, selectedYear).then(
-      () => {
-        this.markRestaurants(this.clusters);
-      }
-    );
+    await this.getClusters(this.locationId, selectedMonth, selectedYear);
+    await this.markRestaurants(this.clusters);
+    this.month = selectedMonth;
+    this.year = selectedYear;
   }
 }

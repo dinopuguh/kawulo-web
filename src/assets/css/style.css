@@ -6,6 +6,10 @@ Author: Surjith S M
 /* ==============================================================
    GLOBAL STYLES
    ============================================================== */
+.masonry-item {
+  width: 200px;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -459,9 +463,9 @@ p {
   width: 100%;
 }
 
-.featured-rating,
-.featured-rating-orange,
-.featured-rating-green {
+.featured-rating-low,
+.featured-rating-medium,
+.featured-rating-high {
   position: absolute;
   right: 10px;
   width: 60px;
@@ -469,19 +473,20 @@ p {
   text-align: center;
   margin: -33px 10px 0 0;
   font-size: 23px;
-  background: #ff7474;
+  background: #ff3b3b;
   color: #fff;
   padding: 14px;
   border-radius: 50%;
 }
 
-.featured-rating-orange {
-  background: #ffae00 !important;
+.featured-rating-medium {
+  background: #ffd84a !important;
 }
 
-.featured-rating-green {
-  background: #46cd38 !important;
+.featured-rating-high {
+  background: #4791ff !important;
 }
+
 
 .featured-title-box {
   padding: 22px 20px;
@@ -500,6 +505,7 @@ p {
   text-overflow: ellipsis;
   margin-bottom: 5px;
 }
+
 
 .featured-title-box p {
   color: #9fa9b9;
@@ -824,7 +830,7 @@ footer {
   .map-icon {
     display: inline-block;
     text-align: right;
-    float: right;
+
   }
 }
 
@@ -891,8 +897,8 @@ footer {
   font-size: 18px;
   color: #b2b8c3;
   font-weight: 400;
-  padding: 0 0 0 8px;
-  margin: 0 0 8px;
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 992px) {
@@ -910,6 +916,7 @@ footer {
   font-weight: 400 !important;
   padding: 0 !important;
   margin: 0 !important;
+  display: block !important;
 }
 
 .reserve-seat-block {
@@ -934,14 +941,24 @@ footer {
   }
 }
 
-.reserve-rating {
+.reserve-rating-low,
+.reserve-rating-medium,
+.reserve-rating-high {
   font-size: 23px;
-  background: #46cd38;
+  background: #ff3b3b;
   padding: 10px 14px;
   color: #fff;
   border-radius: 3px;
   display: inline-block;
   vertical-align: top;
+}
+
+.reserve-rating-medium {
+  background: #ffd84a !important;
+}
+
+.reserve-rating-high {
+  background: #4791ff !important;
 }
 
 .review-btn {
@@ -1026,6 +1043,11 @@ footer {
   font-weight: 400;
 }
 
+.subtitle-review {
+  color: #3e434b;
+  text-align: center;
+}
+
 .booking-checkbox {
   color: #737882;
   font-size: 15px;
@@ -1071,7 +1093,7 @@ footer {
 }
 
 .customer-content-wrap {
-  margin: 0 0 0 135px;
+  margin: 0;
 }
 
 @media (max-width: 992px) {
@@ -1235,6 +1257,12 @@ footer {
 
 .address p {
   margin: 0 0 0 34px;
+}
+
+.address a {
+  margin: 0 0 0 18px;
+  color: #737882;
+  text-decoration: none;
 }
 
 .address .featured-open {

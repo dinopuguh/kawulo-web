@@ -7,7 +7,7 @@ import { DetailComponent } from "./components/site/detail/detail.component";
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "list/:location_id/:month/:year", component: ListComponent },
-  { path: "detail", component: DetailComponent },
+  { path: "detail/:restaurant_id/:month/:year", component: DetailComponent },
   { path: "", redirectTo: "/home", pathMatch: "full" }
 ];
 

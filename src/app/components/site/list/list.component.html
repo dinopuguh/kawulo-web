@@ -4,15 +4,14 @@
             <div class="col-md-7 responsive-wrap">
 
                 <div class="row detail-filter-wrap">
-                    <div class="col-md-4 featured-responsive">
+                    <div class="col-md-6 featured-responsive">
                         <div class="detail-filter-text">
                             <p>{{clusters.length}} restaurants in <span>{{location.Name}}</span></p>
                         </div>
                     </div>
 
-                    <div class="col-md-8 featured-responsive">
+                    <div class="col-md-6 featured-responsive">
                         <div class="detail-filter">
-                            <p>Filter by month</p>
                             <form [formGroup]="filterForm" (ngSubmit)="setFilter(filterForm.value)" class="filter-dropdown">
                                 <select formControlName="filterMonth" class="custom-select mb-2 mr-sm-2 mb-sm-0"  [ngModel]="month" name="month" id="inlineFormCustomSelect">
                                     <option *ngFor="let m of months" [ngValue]="m.value">{{m.text}}</option>
@@ -88,25 +87,29 @@
                 </div> -->
 
                 <div class="row light-bg detail-options-wrap">
-                    <div *ngFor="let cluster of clusters" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
+                    <div *ngFor="let cluster of clusters" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive mt-3">
                         <div class="featured-place-wrap">
-                            <a href="#">
-                                <img src="{{cluster.Restaurant.Photo.Images.Large.Url}}" class="img-fluid" alt="#">
-                                <span [className]="cluster.Cluster == 0 ? 'featured-rating' : (cluster.Cluster == 1 ? 'featured-rating-orange' : 'featured-rating-green')"> <i class="ti-star" aria-hidden="true">{{cluster.Cluster + 1}} </i> </span>
-                                <div class="featured-title-box">
+                            <a routerLink="/detail/{{cluster.Restaurant.LocationId}}/{{month}}/{{year}}" routerLinkActive="active">
+                                <div class="img-container">
+                                    <img src="{{cluster.Restaurant.Photo.Images.Large.Url}}" class="img-restaurant" alt="#">
+                                </div>
+                                <span [className]="cluster.Cluster == 0 ? 'featured-rating-low' : (cluster.Cluster == 1 ? 'featured-rating-medium' : 'featured-rating-high')"> 
+                                    <i [className]="cluster.Cluster == 0 ? 'ti ti-thumb-down' : (cluster.Cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')" aria-hidden="true"></i>
+                                </span>
+                                <div class="featured-title-box mt-3">
                                     <h6>{{cluster.Restaurant.Name}}</h6>
                                     <p>{{cluster.Restaurant.Rating}} </p> <span>• </span>
                                     <p>{{cluster.Restaurant.NumReviews}} Reviews</p> <span> • </span>
                                     <p><span>{{cluster.Restaurant.PriceLevel}}</span></p>
                                     <ul>
                                         <li><span class="icon-location-pin"></span>
-                                            <p>{{cluster.Restaurant.Address}}</p>
+                                            <p>{{cluster.Restaurant.Address != '' ? cluster.Restaurant.Address : '-'}}</p>
                                         </li>
                                         <li><span class="icon-screen-smartphone"></span>
-                                            <p>{{cluster.Restaurant.Phone}}</p>
+                                            <p>{{cluster.Restaurant.Phone != '' ? cluster.Restaurant.Phone : '-'}}</p>
                                         </li>
                                         <li><span class="icon-link"></span>
-                                            <p>{{cluster.Restaurant.Website}}</p>
+                                            <p>{{cluster.Restaurant.Website != '' ? cluster.Restaurant.Website.slice(0, 40) : '-'}}</p>
                                         </li>
 
                                     </ul>
@@ -119,7 +122,6 @@
                             </a>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div class="col-md-5 responsive-wrap map-wrap">

@@ -3,7 +3,7 @@ import { FormBuilder } from "@angular/forms";
 import { ApiService } from "src/app/api/api.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { LocationComponent } from "../location/location.component";
-import { ILocation } from "src/app/interface/location.interface";
+import { ILocation } from "src/app/interfaces/location.interface";
 
 @Component({
   selector: "app-home",
