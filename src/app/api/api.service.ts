@@ -4,14 +4,14 @@ import {
   LOCATION_SEARCH_API_URL,
   CLUSTER_RESTAURANT_API_URL,
   LOCATION_API_URL,
-  DETAIL_RESTAURANT_API_URL
+  DETAIL_RESTAURANT_API_URL,
 } from "./config";
 import { ILocation } from "../interfaces/location.interface";
 import { ICluster } from "../interfaces/cluster.interface";
 import { IRestaurantDetail } from "../interfaces/restaurant.interface";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
@@ -22,8 +22,8 @@ export class ApiService {
 
       const httpOptions = {
         headers: new HttpHeaders({
-          "Access-Control-Allow-Origin": "*"
-        })
+          "Access-Control-Allow-Origin": "*",
+        }),
       };
 
       return await this.http.get<ILocation[]>(url, httpOptions).toPromise();
@@ -38,8 +38,8 @@ export class ApiService {
 
       const httpOptions = {
         headers: new HttpHeaders({
-          "Access-Control-Allow-Origin": "*"
-        })
+          "Access-Control-Allow-Origin": "*",
+        }),
       };
 
       return await this.http.get<ILocation>(url, httpOptions).toPromise();
