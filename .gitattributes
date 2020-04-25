@@ -1,3 +1,4 @@
 *.css linguist-detectable=false
 *.html linguist-detectable=false
-*.component.ts linguist-detectable=true
+*.js linguist-detectable=false
+*.ts linguist-detectable=true
