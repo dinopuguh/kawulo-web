@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // kawulo_api_url: nprocess.env.KAWULO_API_URL,
 };
 
 /*
