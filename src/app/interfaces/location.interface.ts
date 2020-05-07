@@ -1,7 +1,7 @@
 export interface ILocation {
-  ID?: string;
-  Name: string;
-  LocationId: string;
-  Latitude: number;
-  Longitude: number;
+  _id?: string;
+  name: string;
+  location_id: string;
+  latitude: number;
+  longitude: number;
 }

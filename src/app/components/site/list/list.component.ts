@@ -15,19 +15,19 @@ interface Dropdown {
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.css"]
+  styleUrls: ["./list.component.css"],
 })
 export class ListComponent implements OnInit {
   filterForm;
-  private locationId: string;
-  private month: number;
-  private months: Dropdown[];
-  private year: number;
-  private years: Dropdown[];
-  private map: L.Map;
-  private marker: L.Marker;
-  private location: ILocation;
-  private clusters: ICluster[];
+  locationId: string;
+  month: number;
+  months: Dropdown[];
+  year: number;
+  years: Dropdown[];
+  map: L.Map;
+  marker: L.Marker;
+  location: ILocation;
+  clusters: ICluster[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +37,7 @@ export class ListComponent implements OnInit {
   ) {
     this.filterForm = this.formBuilder.group({
       filterMonth: "",
-      filterYear: ""
+      filterYear: "",
     });
 
     this.locationId = this.route.snapshot.paramMap.get("location_id");
@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
       { value: 9, text: "September" },
       { value: 10, text: "October" },
       { value: 11, text: "November" },
-      { value: 12, text: "December" }
+      { value: 12, text: "December" },
     ];
     this.years = [];
 
@@ -77,13 +77,13 @@ export class ListComponent implements OnInit {
       const response = await this.apiService.getLocationById(location_id);
 
       this.location = {
-        Name: response.Name,
-        LocationId: response.LocationId,
-        Latitude: response.Latitude,
-        Longitude: response.Longitude
+        name: response.name,
+        location_id: response.location_id,
+        latitude: response.latitude,
+        longitude: response.longitude,
       };
 
-      await this.initMap(this.location.Latitude, this.location.Longitude);
+      await this.initMap(this.location.latitude, this.location.longitude);
     } catch (error) {
       console.log(error);
     }
@@ -92,14 +92,14 @@ export class ListComponent implements OnInit {
   async initMap(latitude: number, longitude: number) {
     this.map = L.map("map", {
       center: [latitude, longitude],
-      zoom: 13
+      zoom: 13,
     });
 
     const tiles = await L.tileLayer(
       "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         maxZoom: 18,
-        attribution: "Kawulo Map"
+        attribution: "Kawulo Map",
       }
     );
 
@@ -124,15 +124,15 @@ export class ListComponent implements OnInit {
     const icons = [
       "../../../assets/images/marker/restaurant-marker-red.png",
       "../../../assets/images/marker/restaurant-marker-yellow.png",
-      "../../../assets/images/marker/restaurant-marker-blue.png"
+      "../../../assets/images/marker/restaurant-marker-blue.png",
     ];
 
-    clusters.map(c => {
+    clusters.map((c) => {
       this.marker = new L.Marker(
-        [+c.Restaurant.Latitude, +c.Restaurant.Longitude],
+        [+c.restaurant.latitude, +c.restaurant.longitude],
         {
-          title: c.Restaurant.Name,
-          icon: L.icon({ iconUrl: icons[c.Cluster], iconSize: [40, 50] })
+          title: c.restaurant.name,
+          icon: L.icon({ iconUrl: icons[c.cluster], iconSize: [40, 50] }),
         }
       );
 
@@ -140,7 +140,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  private async setFilter(formValue) {
+  async setFilter(formValue) {
     const selectedMonth = formValue.filterMonth;
     const selectedYear = formValue.filterYear;
 

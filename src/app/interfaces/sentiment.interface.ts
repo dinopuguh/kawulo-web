@@ -1,12 +1,12 @@
 export interface ISentiment {
-  ID?: string;
-  PublishedDate: string;
-  Month: number;
-  Year: number;
-  TranslatedText: string;
-  Service: number;
-  Value: number;
-  Food: number;
-  Vader: number;
-  Wordnet: number;
+  _id?: string;
+  published_date: string;
+  month: number;
+  year: number;
+  translated_text: string;
+  service: number;
+  value: number;
+  food: number;
+  vader: number;
+  wordnet: number;
 }

@@ -1,128 +1,209 @@
-<!--============================= RESERVE A SEAT =============================-->
 <section class="reserve-block">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h5>{{restaurant.Cluster.Restaurant.Name}}</h5><br>
-                <p><span>{{restaurant.Cluster.Restaurant.PriceLevel}}</span></p>
-                <p class="reserve-description">{{restaurant.Cluster.Restaurant.Ranking}}</p>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>{{restaurant.cluster.restaurant.name}}</h5><br>
+        <p><span>{{restaurant.cluster.restaurant.price_level}}</span></p>
+        <p class="reserve-description">{{restaurant.cluster.restaurant.ranking}}</p>
+      </div>
+      <div class="col-md-6">
+        <div class="reserve-seat-block">
+          <div
+            [className]="restaurant.cluster.cluster == 0 ? 'reserve-rating-low' : (restaurant.cluster.cluster == 1 ? 'reserve-rating-medium' : 'reserve-rating-high')">
+            <i [className]="restaurant.cluster.cluster == 0 ? 'ti ti-thumb-down' : (restaurant.cluster.cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')"
+              aria-hidden="true"></i>
+          </div>
+          <div class="review-btn">
+            <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
+            <span>{{restaurant.cluster.restaurant.num_reviews}} reviews</span>
+          </div>
         </div>
-            <div class="col-md-6">
-                <div class="reserve-seat-block">
-                    <div [className]="restaurant.Cluster.Cluster == 0 ? 'reserve-rating-low' : (restaurant.Cluster.Cluster == 1 ? 'reserve-rating-medium' : 'reserve-rating-high')">
-                        <i [className]="restaurant.Cluster.Cluster == 0 ? 'ti ti-thumb-down' : (restaurant.Cluster.Cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')" aria-hidden="true"></i>
-                    </div>
-                    <div class="review-btn">
-                        <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
-                        <span>{{restaurant.Cluster.Restaurant.NumReviews}} reviews</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
-<!--//END RESERVE A SEAT -->
-<!--============================= BOOKING DETAILS =============================-->
 <section class="light-bg booking-details_wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 responsive-wrap">
-                <div class="booking-checkbox_wrap">
-                    <div id="rating-chart">
-                        <apx-chart
-                            [series]="ratingChartOptions.series"
-                            [chart]="ratingChartOptions.chart"
-                            [xaxis]="ratingChartOptions.xaxis"
-                            [yaxis]="ratingChartOptions.yaxis"
-                            [dataLabels]="ratingChartOptions.dataLabels"
-                            [grid]="ratingChartOptions.grid"
-                            [stroke]="ratingChartOptions.stroke"
-                            [title]="ratingChartOptions.title"
-                            [labels]="ratingChartOptions.labels"
-                            [annotations]="ratingChartOptions.annotations"
-                        ></apx-chart>
-                        <hr>
-                    </div>
-                    <div id="sentiment-chart">
-                        <apx-chart
-                            [series]="sentimentChartOptions.series"
-                            [chart]="sentimentChartOptions.chart"
-                            [xaxis]="sentimentChartOptions.xaxis"
-                            [yaxis]="sentimentChartOptions.yaxis"
-                            [dataLabels]="sentimentChartOptions.dataLabels"
-                            [grid]="sentimentChartOptions.grid"
-                            [stroke]="sentimentChartOptions.stroke"
-                            [title]="sentimentChartOptions.title"
-                            [labels]="sentimentChartOptions.labels"
-                            [annotations]="sentimentChartOptions.annotations"
-                        ></apx-chart>
-                        <hr>
-                    </div>
-                </div>
-                <div class="booking-checkbox_wrap mt-4">
-                    <h5>{{restaurant.Sentiments.length}} Recent Reviews</h5>
-                    <p class="subtitle-review">{{restaurant.Cluster.Restaurant.NumReviews}} Total Reviews</p>
-                    <hr>
-                    <div class="customer-review_wrap mb-2" *ngFor="let sentiment of restaurant.Sentiments">
-                        <div class="customer-content-wrap">
-                            <div class="customer-content">
-                                <div class="customer-review">
-                                    <p>Service</p>
-                                    <span *ngFor="let item of counter(sentiment.Service)"></span>
-                                    <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.Service)"></span>
-                                    <br>
-                                    <p>Vader</p>
-                                    <span *ngFor="let item of counter(sentiment.Vader)"></span>
-                                    <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.Vader)"></span>
-                                </div>
-                                <div class="customer-review ml-5">
-                                    <p>Value</p>
-                                    <span *ngFor="let item of counter(sentiment.Value)"></span>
-                                    <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.Value)"></span>
-                                    <br>
-                                    <p>Wordnet</p>
-                                    <span *ngFor="let item of counter(sentiment.Wordnet)"></span>
-                                    <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.Wordnet)"></span>
-                                    <br>
-                                </div>
-                                <div class="customer-review ml-5">
-                                    <p>Food</p>
-                                    <span *ngFor="let item of counter(sentiment.Food)"></span>
-                                    <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.Food)"></span>
-                                    <br>
-                                    <br>
-                                </div>
-                            </div>
-                            <p class="customer-text">{{sentiment.TranslatedText}}</p>
-                            <p class="customer-text">Reviewed {{getDateFromNow(sentiment.PublishedDate)}}</p>
-                            <span>{{sentiment.Month * 2}} people marked this review as helpful</span>
-                            <a href="#"><span class="icon-like"></span>Helpful</a>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 responsive-wrap map-wrap">
-                <div class="contact-info">
-                    <img src="{{restaurant.Cluster.Restaurant.Photo.Images.Original.Url}}" class="img-restaurant" alt="#">
-                    <div class="address">
-                        <span class="icon-location-pin"></span>
-                        <p>{{restaurant.Cluster.Restaurant.Address != '' ? restaurant.Cluster.Restaurant.Address : '-'}}</p>
-                    </div>
-                    <div class="address">
-                        <span class="icon-screen-smartphone"></span>
-                        <p>{{restaurant.Cluster.Restaurant.Phone != '' ? restaurant.Cluster.Restaurant.Phone : '-'}}</p>
-                    </div>
-                    <div class="address">
-                        <span class="icon-link"></span>
-                        <a href="{{restaurant.Cluster.Restaurant.Website}}">{{restaurant.Cluster.Restaurant.Website != '' ? restaurant.Cluster.Restaurant.Website : '-'}}</a>
-                    </div>
-                    <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
-                </div>
-                <div class="follow">
-                    <div id="map"></div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 responsive-wrap">
+        <div class="booking-checkbox_wrap">
+          <div id="service-chart">
+            <apx-chart [series]="serviceChartOptions.series" [chart]="serviceChartOptions.chart"
+              [xaxis]="serviceChartOptions.xaxis" [yaxis]="serviceChartOptions.yaxis" [fill]="serviceChartOptions.fill"
+              [dataLabels]="serviceChartOptions.dataLabels" [grid]="serviceChartOptions.grid"
+              [stroke]="serviceChartOptions.stroke" [title]="serviceChartOptions.title"
+              [labels]="serviceChartOptions.labels" [annotations]="serviceChartOptions.annotations"></apx-chart>
+            <hr>
+          </div>
+          <div id="value-chart">
+            <apx-chart [series]="valueChartOptions.series" [chart]="valueChartOptions.chart"
+              [xaxis]="valueChartOptions.xaxis" [yaxis]="valueChartOptions.yaxis" [fill]="valueChartOptions.fill"
+              [dataLabels]="valueChartOptions.dataLabels" [grid]="valueChartOptions.grid"
+              [stroke]="valueChartOptions.stroke" [title]="valueChartOptions.title" [labels]="valueChartOptions.labels"
+              [annotations]="valueChartOptions.annotations"></apx-chart>
+            <hr>
+          </div>
+          <div id="food-chart">
+            <apx-chart [series]="foodChartOptions.series" [chart]="foodChartOptions.chart"
+              [xaxis]="foodChartOptions.xaxis" [yaxis]="foodChartOptions.yaxis" [fill]="foodChartOptions.fill"
+              [dataLabels]="foodChartOptions.dataLabels" [grid]="foodChartOptions.grid"
+              [stroke]="foodChartOptions.stroke" [title]="foodChartOptions.title" [labels]="foodChartOptions.labels"
+              [annotations]="foodChartOptions.annotations"></apx-chart>
+          </div>
         </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <div id="vader-chart">
+            <apx-chart [series]="vaderChartOptions.series" [chart]="vaderChartOptions.chart"
+              [xaxis]="vaderChartOptions.xaxis" [yaxis]="vaderChartOptions.yaxis" [fill]="vaderChartOptions.fill"
+              [dataLabels]="vaderChartOptions.dataLabels" [grid]="vaderChartOptions.grid"
+              [stroke]="vaderChartOptions.stroke" [title]="vaderChartOptions.title" [labels]="vaderChartOptions.labels"
+              [annotations]="vaderChartOptions.annotations"></apx-chart>
+            <hr>
+          </div>
+          <div id="wordnet-chart">
+            <apx-chart [series]="wordnetChartOptions.series" [chart]="wordnetChartOptions.chart"
+              [xaxis]="wordnetChartOptions.xaxis" [yaxis]="wordnetChartOptions.yaxis" [fill]="wordnetChartOptions.fill"
+              [dataLabels]="wordnetChartOptions.dataLabels" [grid]="wordnetChartOptions.grid"
+              [stroke]="wordnetChartOptions.stroke" [title]="wordnetChartOptions.title"
+              [labels]="wordnetChartOptions.labels" [annotations]="wordnetChartOptions.annotations"></apx-chart>
+          </div>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <h5>{{restaurant.sentiments.length}} Recent Reviews</h5>
+          <p class="subtitle-review">{{restaurant.cluster.restaurant.num_reviews}} Total Reviews</p>
+          <hr>
+          <div class="customer-review_wrap mb-2" *ngFor="let sentiment of restaurant.sentiments">
+            <div class="customer-content-wrap">
+              <div class="customer-content">
+                <div class="customer-review">
+                  <p>Service</p>
+                  <span *ngFor="let item of counter(sentiment.service)"></span>
+                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.service)"></span>
+                  <br>
+                  <p>Vader</p>
+                  <span *ngFor="let item of counter(sentiment.vader)"></span>
+                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.vader)"></span>
+                </div>
+                <div class="customer-review ml-5">
+                  <p>Value</p>
+                  <span *ngFor="let item of counter(sentiment.value)"></span>
+                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.value)"></span>
+                  <br>
+                  <p>Wordnet</p>
+                  <span *ngFor="let item of counter(sentiment.wordnet)"></span>
+                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.wordnet)"></span>
+                  <br>
+                </div>
+                <div class="customer-review ml-5">
+                  <p>Food</p>
+                  <span *ngFor="let item of counter(sentiment.food)"></span>
+                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.food)"></span>
+                  <br>
+                  <br>
+                </div>
+              </div>
+              <p class="customer-text">{{sentiment.translated_text}}</p>
+              <p class="customer-text">Reviewed {{getDateFromNow(sentiment.published_date)}}</p>
+              <span>{{sentiment.month * 2}} people marked this review as helpful</span>
+              <a href="#"><span class="icon-like"></span>Helpful</a>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 responsive-wrap map-wrap">
+        <div class="contact-info">
+          <img src="{{restaurant.cluster.restaurant.photo.images.original.url}}" class="img-restaurant" alt="#">
+          <div class="address">
+            <span class="icon-location-pin"></span>
+            <p>{{restaurant.cluster.restaurant.address != '' ? restaurant.cluster.restaurant.address : '-'}}</p>
+          </div>
+          <div class="address">
+            <span class="icon-screen-smartphone"></span>
+            <p>{{restaurant.cluster.restaurant.phone != '' ? restaurant.cluster.restaurant.phone : '-'}}</p>
+          </div>
+          <div class="address">
+            <span class="icon-link"></span>
+            <a
+              href="{{restaurant.cluster.restaurant.website}}">{{restaurant.cluster.restaurant.website != '' ? restaurant.cluster.restaurant.website : '-'}}</a>
+          </div>
+          <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
+        </div>
+        <div class="follow">
+          <div id="map"></div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="service-sentiment-chart">
+              <apx-chart [series]="serviceSentimentChartOptions.series" [chart]="serviceSentimentChartOptions.chart"
+                [labels]="serviceSentimentChartOptions.labels" [theme]="serviceSentimentChartOptions.theme"
+                [title]="serviceSentimentChartOptions.title" [responsive]="serviceSentimentChartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="value-sentiment-chart">
+              <apx-chart [series]="valueSentimentChartOptions.series" [chart]="valueSentimentChartOptions.chart"
+                [labels]="valueSentimentChartOptions.labels" [theme]="valueSentimentChartOptions.theme"
+                [title]="valueSentimentChartOptions.title" [responsive]="valueSentimentChartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="food-sentiment-chart">
+              <apx-chart [series]="foodSentimentChartOptions.series" [chart]="foodSentimentChartOptions.chart"
+                [labels]="foodSentimentChartOptions.labels" [theme]="foodSentimentChartOptions.theme"
+                [title]="foodSentimentChartOptions.title" [responsive]="foodSentimentChartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="vader-sentiment-chart">
+              <apx-chart [series]="vaderSentimentChartOptions.series" [chart]="vaderSentimentChartOptions.chart"
+                [labels]="vaderSentimentChartOptions.labels" [theme]="vaderSentimentChartOptions.theme"
+                [title]="vaderSentimentChartOptions.title" [responsive]="vaderSentimentChartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="wordnet-sentiment-chart">
+              <apx-chart [series]="wordnetSentimentChartOptions.series" [chart]="wordnetSentimentChartOptions.chart"
+                [labels]="wordnetSentimentChartOptions.labels" [theme]="wordnetSentimentChartOptions.theme"
+                [title]="wordnetSentimentChartOptions.title" [responsive]="wordnetSentimentChartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="sentiment-chart">
+              <apx-chart [series]="sentimentChartOptions.series" [chart]="sentimentChartOptions.chart"
+                [dataLabels]="sentimentChartOptions.dataLabels" [plotOptions]="sentimentChartOptions.plotOptions"
+                [xaxis]="sentimentChartOptions.xaxis" [stroke]="sentimentChartOptions.stroke"
+                [fill]="sentimentChartOptions.fill" [title]="sentimentChartOptions.title"
+                [tooltip]="sentimentChartOptions.tooltip" [legend]="sentimentChartOptions.legend">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div id="review-heatmap">
+              <apx-chart [series]="reviewHeatmapOptions.series" [chart]="reviewHeatmapOptions.chart"
+                [dataLabels]="reviewHeatmapOptions.dataLabels" [title]="reviewHeatmapOptions.title"
+                [colors]="reviewHeatmapOptions.colors"></apx-chart>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>

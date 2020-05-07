@@ -5,10 +5,12 @@ import {
   CLUSTER_RESTAURANT_API_URL,
   LOCATION_API_URL,
   DETAIL_RESTAURANT_API_URL,
+  PREDICTION_RESTAURANT_API_URL,
 } from "./config";
 import { ILocation } from "../interfaces/location.interface";
 import { ICluster } from "../interfaces/cluster.interface";
 import { IRestaurantDetail } from "../interfaces/restaurant.interface";
+import { IPredictionResponse } from "../interfaces/prediction.interface";
 
 @Injectable({
   providedIn: "root",
@@ -73,6 +75,20 @@ export class ApiService {
       return await this.http.get<IRestaurantDetail>(url).toPromise();
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async getPredictions(
+    restaurant_id: string,
+    n_train: number,
+    alpha: number
+  ): Promise<IPredictionResponse> {
+    try {
+      const url = `${PREDICTION_RESTAURANT_API_URL}${restaurant_id}/${n_train}/${alpha}`;
+
+      return await this.http.get<IPredictionResponse>(url).toPromise();
+    } catch (error) {
+      console.log(error);
     }
   }
 }

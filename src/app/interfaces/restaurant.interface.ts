@@ -1,59 +1,66 @@
 import { ICluster } from "./cluster.interface";
 import { ITemporal } from "./temporal.interface";
-import { ISentiment } from "./sentiment.interface";
 import { IPrediction } from "./prediction.interface";
+import { ISentiment } from "./sentiment.interface";
+import { IStats } from "./stats.interface";
+import { IHeatmap } from "./heatmap.interface";
 
 export interface IRestaurant {
-  ID?: string;
-  LocationId: string;
-  Name: string;
-  Latitude: string;
-  Longitude: string;
-  NumReviews: string;
-  Photo: IPhoto;
-  Rating: string;
-  PriceLevel: string;
-  Price: string;
-  Address: string;
-  Phone: string;
-  Website: string;
-  RawRanking: string;
-  RankingGeo: string;
-  RankingPosition: string;
-  RankingDenominator: string;
-  RankingCategory: string;
-  Ranking: string;
-  SubCategory: ISubCategory[];
-  LocationID: string;
-  LocationObjectID: string;
-  CreatedAt: Date;
+  _id?: string;
+  location_id: string;
+  name: string;
+  latitude: string;
+  longitude: string;
+  num_reviews: string;
+  photo: IPhoto;
+  rating: string;
+  price_level: string;
+  price: string;
+  address: string;
+  phone: string;
+  website: string;
+  raw_ranking: string;
+  ranking_geo: string;
+  ranking_position: string;
+  ranking_denominator: string;
+  ranking_category: string;
+  ranking: string;
+  sub_category: ISubCategory[];
+  locationID: string;
+  location_ObjectId: string;
+  created_at: Date;
 }
 
 export interface IRestaurantDetail {
-  Cluster: ICluster;
-  Temporal: ITemporal[];
-  Prediction: IPrediction;
-  Sentiment: ISentiment[];
+  cluster: ICluster;
+  temporal: ITemporal[];
+  sentiments: ISentiment[];
+  service_stats: IStats;
+  value_stats: IStats;
+  food_stats: IStats;
+  vader_stats: IStats;
+  wordnet_stats: IStats;
+  heatmap: IHeatmap[];
 }
 
 interface IPhoto {
-  Images: IImages;
+  images: IImages;
 }
 
 interface IImages {
-  Thumbnail: IImage;
-  Original: IImage;
-  Medium: IImage;
-  Large: IImage;
+  thumbnail: IImage;
+  original: IImage;
+  medium: IImage;
+  large: IImage;
 }
 
 interface IImage {
-  Width: string;
-  Url: string;
-  Height: string;
+  width: string;
+  url: string;
+  height: string;
 }
 
 interface ISubCategory {
-  Key: string;
-  Name: string;
+  key: string;
+  name: string;
 }
