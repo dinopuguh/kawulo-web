@@ -2,11 +2,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-7 responsive-wrap">
-
         <div class="row detail-filter-wrap">
           <div class="col-md-6 featured-responsive">
             <div class="detail-filter-text">
-              <p>{{clusters.length}} restaurants in <span>{{location.name}}</span></p>
+              <p>
+                {{ totalCount }} restaurants in <span>{{ location.name }}</span>
+              </p>
             </div>
           </div>
 
@@ -15,11 +16,15 @@
               <form [formGroup]="filterForm" (ngSubmit)="setFilter(filterForm.value)" class="filter-dropdown">
                 <select formControlName="filterMonth" class="custom-select mb-2 mr-sm-2 mb-sm-0" [ngModel]="month"
                   name="month" id="inlineFormCustomSelect">
-                  <option *ngFor="let m of months" [ngValue]="m.value">{{m.text}}</option>
+                  <option *ngFor="let m of months" [ngValue]="m.value">{{
+                    m.text
+                  }}</option>
                 </select>
                 <select formControlName="filterYear" class="custom-select mb-2 mr-sm-2 mb-sm-0" [ngModel]="year"
                   name="year" id="inlineFormCustomSelect1">
-                  <option *ngFor="let y of years" [ngValue]="y.value">{{y.text}}</option>
+                  <option *ngFor="let y of years" [ngValue]="y.value">{{
+                    y.text
+                  }}</option>
                 </select>
                 <button type="submit" class="btn btn-info">Set filter</button>
               </form>
@@ -91,34 +96,72 @@
         <div class="row light-bg detail-options-wrap">
           <div *ngFor="let cluster of clusters" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive mt-3">
             <div class="featured-place-wrap">
-              <a routerLink="/detail/{{cluster.restaurant.location_id}}/{{month}}/{{year}}" routerLinkActive="active">
+              <a routerLink="/detail/{{ cluster.restaurant.location_id }}/{{
+                  month
+                }}/{{ year }}" routerLinkActive="active">
                 <div class="img-container">
-                  <img src="{{cluster.restaurant.photo.images.large.url}}" class="img-restaurant" alt="#">
+                  <img src="{{ cluster.restaurant.photo.images.large.url }}" class="img-restaurant" alt="#" />
                 </div>
-                <span
-                  [className]="cluster.cluster == 0 ? 'featured-rating-low' : (cluster.cluster == 1 ? 'featured-rating-medium' : 'featured-rating-high')">
-                  <i [className]="cluster.cluster == 0 ? 'ti ti-thumb-down' : (cluster.cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')"
-                    aria-hidden="true"></i>
+                <span [className]="
+                    cluster.cluster == 0
+                      ? 'featured-rating-low'
+                      : cluster.cluster == 1
+                      ? 'featured-rating-medium'
+                      : 'featured-rating-high'
+                  ">
+                  <i [className]="
+                      cluster.cluster == 0
+                        ? 'ti ti-thumb-down'
+                        : cluster.cluster == 1
+                        ? 'ti ti-hand-drag'
+                        : 'ti ti-thumb-up'
+                    " aria-hidden="true"></i>
                 </span>
                 <div class="featured-title-box mt-3">
-                  <h6>{{cluster.restaurant.name}}</h6>
-                  <p>{{cluster.restaurant.rating}} </p> <span>• </span>
-                  <p>{{cluster.restaurant.num_reviews}} Reviews</p> <span> • </span>
-                  <p><span>{{cluster.restaurant.price_level}}</span></p>
+                  <h6>{{ cluster.restaurant.name }}</h6>
+                  <p>{{ cluster.restaurant.rating }}</p>
+                  <span>• </span>
+                  <p>{{ cluster.restaurant.num_reviews }} Reviews</p>
+                  <span> • </span>
+                  <p>
+                    <span>{{ cluster.restaurant.price_level }}</span>
+                  </p>
                   <ul>
-                    <li><span class="icon-location-pin"></span>
-                      <p>{{cluster.restaurant.address != '' ? cluster.restaurant.address : '-'}}</p>
+                    <li>
+                      <span class="icon-location-pin"></span>
+                      <p>
+                        {{
+                          cluster.restaurant.address != ""
+                            ? cluster.restaurant.address
+                            : "-"
+                        }}
+                      </p>
                     </li>
-                    <li><span class="icon-screen-smartphone"></span>
-                      <p>{{cluster.restaurant.phone != '' ? cluster.restaurant.phone : '-'}}</p>
+                    <li>
+                      <span class="icon-screen-smartphone"></span>
+                      <p>
+                        {{
+                          cluster.restaurant.phone != ""
+                            ? cluster.restaurant.phone
+                            : "-"
+                        }}
+                      </p>
                     </li>
-                    <li><span class="icon-link"></span>
-                      <p>{{cluster.restaurant.website != '' ? cluster.restaurant.website.slice(0, 40) : '-'}}</p>
+                    <li>
+                      <span class="icon-link"></span>
+                      <p>
+                        {{
+                          cluster.restaurant.website != ""
+                            ? cluster.restaurant.website.slice(0, 40)
+                            : "-"
+                        }}
+                      </p>
                     </li>
-
                   </ul>
                   <div class="bottom-icons">
-                    <div class="closed-now">{{cluster.restaurant.ranking}}</div>
+                    <div class="closed-now">
+                      {{ cluster.restaurant.ranking }}
+                    </div>
                     <span class="ti-heart"></span>
                     <span class="ti-bookmark"></span>
                   </div>
@@ -126,6 +169,8 @@
               </a>
             </div>
           </div>
+          <ngb-pagination (pageChange)="onPageChange($event)" class="ml-3" [collectionSize]="totalCount" [(page)]="page"
+            [pageSize]="limit" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
         </div>
       </div>
       <div class="col-md-5 responsive-wrap map-wrap">

@@ -19,6 +19,7 @@ interface Dropdown {
 })
 export class ListComponent implements OnInit {
   filterForm;
+  layerGroup: L.LayerGroup;
   locationId: string;
   month: number;
   months: Dropdown[];
@@ -28,6 +29,10 @@ export class ListComponent implements OnInit {
   marker: L.Marker;
   location: ILocation;
   clusters: ICluster[];
+  limit: number = 20;
+  page: number = 1;
+  totalPages: number = 0;
+  totalCount: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,7 +73,13 @@ export class ListComponent implements OnInit {
 
   async ngOnInit() {
     await this.getLocation(this.locationId);
-    await this.getClusters(this.locationId, this.month, this.year);
+    await this.getClusters(
+      this.locationId,
+      this.month,
+      this.year,
+      this.limit,
+      this.page
+    );
     await this.markRestaurants(this.clusters);
   }
 
@@ -104,23 +115,38 @@ export class ListComponent implements OnInit {
     );
 
     await tiles.addTo(this.map);
+    this.layerGroup = L.layerGroup().addTo(this.map);
   }
 
-  async getClusters(location_id: string, month: number, year: number) {
+  async getClusters(
+    location_id: string,
+    month: number,
+    year: number,
+    limit: number,
+    page: number
+  ) {
     try {
       const response = await this.apiService.getRestaurantClusters(
         location_id,
         month,
-        year
+        year,
+        limit,
+        page
       );
 
-      this.clusters = response;
+      this.clusters = response.pages.active.map((d) => d);
+      this.page = page;
+      this.totalPages = response.total_pages;
+      this.totalCount = response.total_count;
     } catch (err) {
       console.log(err);
     }
   }
 
   async markRestaurants(clusters: ICluster[]) {
+    this.layerGroup.clearLayers();
+    this.layerGroup = L.layerGroup().addTo(this.map);
+
     const icons = [
       "../../../assets/images/marker/restaurant-marker-red.png",
       "../../../assets/images/marker/restaurant-marker-yellow.png",
@@ -136,7 +162,7 @@ export class ListComponent implements OnInit {
         }
       );
 
-      this.marker.addTo(this.map);
+      this.marker.addTo(this.layerGroup);
     });
   }
 
@@ -147,9 +173,26 @@ export class ListComponent implements OnInit {
     await this.router.navigateByUrl(
       `list/${this.locationId}/${selectedMonth}/${selectedYear}`
     );
-    await this.getClusters(this.locationId, selectedMonth, selectedYear);
+    await this.getClusters(
+      this.locationId,
+      selectedMonth,
+      selectedYear,
+      this.limit,
+      this.page
+    );
     await this.markRestaurants(this.clusters);
     this.month = selectedMonth;
     this.year = selectedYear;
+  }
+
+  async onPageChange(page: number) {
+    await this.getClusters(
+      this.locationId,
+      this.month,
+      this.year,
+      this.limit,
+      page
+    );
+    await this.markRestaurants(this.clusters);
   }
 }

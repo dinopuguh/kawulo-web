@@ -11,6 +11,7 @@ import { ILocation } from "../interfaces/location.interface";
 import { ICluster } from "../interfaces/cluster.interface";
 import { IRestaurantDetail } from "../interfaces/restaurant.interface";
 import { IPredictionResponse } from "../interfaces/prediction.interface";
+import { IPagination } from "../interfaces/pagination.interface";
 
 @Injectable({
   providedIn: "root",
@@ -53,12 +54,14 @@ export class ApiService {
   async getRestaurantClusters(
     location: string,
     month: number,
-    year: number
-  ): Promise<ICluster[]> {
+    year: number,
+    limit: number,
+    page: number
+  ): Promise<IPagination<ICluster[]>> {
     try {
-      const url = `${CLUSTER_RESTAURANT_API_URL}${location}/${month}/${year}`;
+      const url = `${CLUSTER_RESTAURANT_API_URL}${location}/${month}/${year}?limit=${limit}&page=${page}`;
 
-      return await this.http.get<ICluster[]>(url).toPromise();
+      return await this.http.get<IPagination<ICluster[]>>(url).toPromise();
     } catch (error) {
       console.error(error);
     }

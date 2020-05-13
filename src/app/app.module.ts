@@ -12,6 +12,7 @@ import { NbDialogModule } from "@nebular/theme";
 import { HomeModule } from "./components/site/home/home.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     HeaderComponent,
     FooterComponent,
     ListComponent,
-    DetailComponent
+    DetailComponent,
   ],
   imports: [
     HttpClientModule,
@@ -29,9 +30,10 @@ import { NgApexchartsModule } from "ng-apexcharts";
     AppRoutingModule,
     NbDialogModule.forRoot(),
     NgApexchartsModule,
-    HomeModule
+    HomeModule,
+    NgbPaginationModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
