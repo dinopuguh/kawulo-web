@@ -8,7 +8,7 @@ import { ILocation } from "src/app/interfaces/location.interface";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"]
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
   searchForm;
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.searchForm = this.formBuilder.group({
-      query: ""
+      query: "",
     });
   }
 
@@ -36,19 +36,16 @@ export class HomeComponent implements OnInit {
   }
 
   private openDialog(locations: ILocation[]): void {
-    console.log(locations);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
     dialogConfig.position = {
       top: "0",
-      left: "0"
+      left: "0",
     };
 
     this.dialog.open(LocationComponent, {
-      data: {
-        locations
-      }
+      data: locations,
     });
   }
 }

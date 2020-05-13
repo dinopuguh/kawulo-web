@@ -1,8 +1,8 @@
 <h1 mat-dialog-title class="title">Search results</h1>
 <div mat-dialog-content>
   <mat-nav-list>
-  <mat-list-item *ngFor="let location of data.locations">
-      <a (click)="select(location.LocationId)" class="location-item">{{location.Name}}</a>
+    <mat-list-item *ngFor="let location of data">
+      <a (click)="select(location.location_id)" class="location-item">{{location.name}}</a>
     </mat-list-item>
   </mat-nav-list>
 </div>

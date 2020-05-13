@@ -1,10 +1,10 @@
 export interface ITemporal {
-  ID?: string;
-  Month: number;
-  Year: number;
-  Service: number;
-  Value: number;
-  Food: number;
-  Vader: number;
-  Wordnet: number;
+  _id?: string;
+  month: number;
+  year: number;
+  service: number;
+  value: number;
+  food: number;
+  vader: number;
+  wordnet: number;
 }

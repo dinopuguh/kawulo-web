@@ -1,18 +1,18 @@
 import { IRestaurant } from "./restaurant.interface";
 
 export interface ICluster {
-  ID?: string;
-  LocationId: string;
-  RestaurantId: string;
-  Restaurant: IRestaurant;
+  _id?: string;
+  location_id: string;
+  restaurant_id: string;
+  restaurant: IRestaurant;
   month: number;
   year: number;
-  Cluster: number;
-  Service: number;
-  Value: number;
-  Food: number;
-  Vader: number;
-  Wordnet: number;
-  Variance: number;
-  SSE: number;
+  cluster: number;
+  service: number;
+  value: number;
+  food: number;
+  vader: number;
+  wordnet: number;
+  variance: number;
+  sse: number;
 }
