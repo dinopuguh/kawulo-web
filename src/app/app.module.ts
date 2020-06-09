@@ -13,15 +13,10 @@ import { HomeModule } from "./components/site/home/home.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
+import { DetailModule } from "./components/site/detail/detail.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    ListComponent,
-    DetailComponent,
-  ],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, ListComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -29,9 +24,9 @@ import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
     ReactiveFormsModule,
     AppRoutingModule,
     NbDialogModule.forRoot(),
-    NgApexchartsModule,
-    HomeModule,
     NgbPaginationModule,
+    HomeModule,
+    DetailModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

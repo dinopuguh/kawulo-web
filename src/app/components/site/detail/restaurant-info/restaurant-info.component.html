@@ -1,0 +1,17 @@
+<div class="contact-info">
+  <img src="{{restaurant.cluster.restaurant.photo.images.original.url}}" class="img-restaurant" alt="#">
+  <div class="address">
+    <span class="icon-location-pin"></span>
+    <p>{{restaurant.cluster.restaurant.address != '' ? restaurant.cluster.restaurant.address : '-'}}</p>
+  </div>
+  <div class="address">
+    <span class="icon-screen-smartphone"></span>
+    <p>{{restaurant.cluster.restaurant.phone != '' ? restaurant.cluster.restaurant.phone : '-'}}</p>
+  </div>
+  <div class="address">
+    <span class="icon-link"></span>
+    <a
+      href="{{restaurant.cluster.restaurant.website}}">{{restaurant.cluster.restaurant.website != '' ? restaurant.cluster.restaurant.website : '-'}}</a>
+  </div>
+  <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
+</div>

@@ -27,180 +27,64 @@
     <div class="row">
       <div class="col-md-8 responsive-wrap">
         <div class="booking-checkbox_wrap">
-          <div id="service-chart">
-            <apx-chart [series]="serviceChartOptions.series" [chart]="serviceChartOptions.chart"
-              [xaxis]="serviceChartOptions.xaxis" [yaxis]="serviceChartOptions.yaxis" [fill]="serviceChartOptions.fill"
-              [dataLabels]="serviceChartOptions.dataLabels" [grid]="serviceChartOptions.grid"
-              [stroke]="serviceChartOptions.stroke" [title]="serviceChartOptions.title"
-              [labels]="serviceChartOptions.labels" [annotations]="serviceChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="value-chart">
-            <apx-chart [series]="valueChartOptions.series" [chart]="valueChartOptions.chart"
-              [xaxis]="valueChartOptions.xaxis" [yaxis]="valueChartOptions.yaxis" [fill]="valueChartOptions.fill"
-              [dataLabels]="valueChartOptions.dataLabels" [grid]="valueChartOptions.grid"
-              [stroke]="valueChartOptions.stroke" [title]="valueChartOptions.title" [labels]="valueChartOptions.labels"
-              [annotations]="valueChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="food-chart">
-            <apx-chart [series]="foodChartOptions.series" [chart]="foodChartOptions.chart"
-              [xaxis]="foodChartOptions.xaxis" [yaxis]="foodChartOptions.yaxis" [fill]="foodChartOptions.fill"
-              [dataLabels]="foodChartOptions.dataLabels" [grid]="foodChartOptions.grid"
-              [stroke]="foodChartOptions.stroke" [title]="foodChartOptions.title" [labels]="foodChartOptions.labels"
-              [annotations]="foodChartOptions.annotations"></apx-chart>
-          </div>
-        </div>
-        <div class="booking-checkbox_wrap mt-4">
-          <div id="vader-chart">
-            <apx-chart [series]="vaderChartOptions.series" [chart]="vaderChartOptions.chart"
-              [xaxis]="vaderChartOptions.xaxis" [yaxis]="vaderChartOptions.yaxis" [fill]="vaderChartOptions.fill"
-              [dataLabels]="vaderChartOptions.dataLabels" [grid]="vaderChartOptions.grid"
-              [stroke]="vaderChartOptions.stroke" [title]="vaderChartOptions.title" [labels]="vaderChartOptions.labels"
-              [annotations]="vaderChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="wordnet-chart">
-            <apx-chart [series]="wordnetChartOptions.series" [chart]="wordnetChartOptions.chart"
-              [xaxis]="wordnetChartOptions.xaxis" [yaxis]="wordnetChartOptions.yaxis" [fill]="wordnetChartOptions.fill"
-              [dataLabels]="wordnetChartOptions.dataLabels" [grid]="wordnetChartOptions.grid"
-              [stroke]="wordnetChartOptions.stroke" [title]="wordnetChartOptions.title"
-              [labels]="wordnetChartOptions.labels" [annotations]="wordnetChartOptions.annotations"></apx-chart>
-          </div>
-        </div>
-        <div class="booking-checkbox_wrap mt-4">
-          <h5>{{restaurant.sentiments.length}} Recent Reviews</h5>
-          <p class="subtitle-review">{{restaurant.cluster.restaurant.num_reviews}} Total Reviews</p>
+          <app-service-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          </app-service-chart>
           <hr>
-          <div class="customer-review_wrap mb-2" *ngFor="let sentiment of restaurant.sentiments">
-            <div class="customer-content-wrap">
-              <div class="customer-content">
-                <div class="customer-review">
-                  <p>Service</p>
-                  <span *ngFor="let item of counter(sentiment.service)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.service)"></span>
-                  <br>
-                  <p>Vader</p>
-                  <span *ngFor="let item of counter(sentiment.vader)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.vader)"></span>
-                </div>
-                <div class="customer-review ml-5">
-                  <p>Value</p>
-                  <span *ngFor="let item of counter(sentiment.value)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.value)"></span>
-                  <br>
-                  <p>Wordnet</p>
-                  <span *ngFor="let item of counter(sentiment.wordnet)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.wordnet)"></span>
-                  <br>
-                </div>
-                <div class="customer-review ml-5">
-                  <p>Food</p>
-                  <span *ngFor="let item of counter(sentiment.food)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.food)"></span>
-                  <br>
-                  <br>
-                </div>
-              </div>
-              <p class="customer-text">{{sentiment.translated_text}}</p>
-              <p class="customer-text">Reviewed {{getDateFromNow(sentiment.published_date)}}</p>
-              <span>{{sentiment.month * 2}} people marked this review as helpful</span>
-              <a href="#"><span class="icon-like"></span>Helpful</a>
-            </div>
-            <hr>
-          </div>
+          <app-value-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          </app-value-chart>
+          <hr>
+          <app-food-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          </app-food-chart>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <app-vader-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          </app-vader-chart>
+          <hr>
+          <app-wordnet-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          </app-wordnet-chart>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <app-review-list *ngIf="restaurant" [restaurant]="restaurant"></app-review-list>
         </div>
       </div>
       <div class="col-md-4 responsive-wrap map-wrap">
-        <div class="contact-info">
-          <img src="{{restaurant.cluster.restaurant.photo.images.original.url}}" class="img-restaurant" alt="#">
-          <div class="address">
-            <span class="icon-location-pin"></span>
-            <p>{{restaurant.cluster.restaurant.address != '' ? restaurant.cluster.restaurant.address : '-'}}</p>
-          </div>
-          <div class="address">
-            <span class="icon-screen-smartphone"></span>
-            <p>{{restaurant.cluster.restaurant.phone != '' ? restaurant.cluster.restaurant.phone : '-'}}</p>
-          </div>
-          <div class="address">
-            <span class="icon-link"></span>
-            <a
-              href="{{restaurant.cluster.restaurant.website}}">{{restaurant.cluster.restaurant.website != '' ? restaurant.cluster.restaurant.website : '-'}}</a>
-          </div>
-          <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
-        </div>
+        <app-restaurant-info *ngIf="restaurant" [restaurant]="restaurant"></app-restaurant-info>
         <div class="follow">
           <div id="map"></div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="service-sentiment-chart">
-              <apx-chart [series]="serviceSentimentChartOptions.series" [chart]="serviceSentimentChartOptions.chart"
-                [labels]="serviceSentimentChartOptions.labels" [theme]="serviceSentimentChartOptions.theme"
-                [title]="serviceSentimentChartOptions.title" [responsive]="serviceSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-service-stats *ngIf="restaurant" [restaurant]="restaurant"></app-service-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="value-sentiment-chart">
-              <apx-chart [series]="valueSentimentChartOptions.series" [chart]="valueSentimentChartOptions.chart"
-                [labels]="valueSentimentChartOptions.labels" [theme]="valueSentimentChartOptions.theme"
-                [title]="valueSentimentChartOptions.title" [responsive]="valueSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-value-stats *ngIf="restaurant" [restaurant]="restaurant"></app-value-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="food-sentiment-chart">
-              <apx-chart [series]="foodSentimentChartOptions.series" [chart]="foodSentimentChartOptions.chart"
-                [labels]="foodSentimentChartOptions.labels" [theme]="foodSentimentChartOptions.theme"
-                [title]="foodSentimentChartOptions.title" [responsive]="foodSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-food-stats *ngIf="restaurant" [restaurant]="restaurant"></app-food-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="vader-sentiment-chart">
-              <apx-chart [series]="vaderSentimentChartOptions.series" [chart]="vaderSentimentChartOptions.chart"
-                [labels]="vaderSentimentChartOptions.labels" [theme]="vaderSentimentChartOptions.theme"
-                [title]="vaderSentimentChartOptions.title" [responsive]="vaderSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-vader-stats *ngIf="restaurant" [restaurant]="restaurant"></app-vader-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="wordnet-sentiment-chart">
-              <apx-chart [series]="wordnetSentimentChartOptions.series" [chart]="wordnetSentimentChartOptions.chart"
-                [labels]="wordnetSentimentChartOptions.labels" [theme]="wordnetSentimentChartOptions.theme"
-                [title]="wordnetSentimentChartOptions.title" [responsive]="wordnetSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-wordnet-stats *ngIf="restaurant" [restaurant]="restaurant"></app-wordnet-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="sentiment-chart">
-              <apx-chart [series]="sentimentChartOptions.series" [chart]="sentimentChartOptions.chart"
-                [dataLabels]="sentimentChartOptions.dataLabels" [plotOptions]="sentimentChartOptions.plotOptions"
-                [xaxis]="sentimentChartOptions.xaxis" [stroke]="sentimentChartOptions.stroke"
-                [fill]="sentimentChartOptions.fill" [title]="sentimentChartOptions.title"
-                [tooltip]="sentimentChartOptions.tooltip" [legend]="sentimentChartOptions.legend">
-              </apx-chart>
-            </div>
+            <app-overview-chart *ngIf="restaurant" [restaurant]="restaurant"></app-overview-chart>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="review-heatmap">
-              <apx-chart [series]="reviewHeatmapOptions.series" [chart]="reviewHeatmapOptions.chart"
-                [dataLabels]="reviewHeatmapOptions.dataLabels" [title]="reviewHeatmapOptions.title"
-                [colors]="reviewHeatmapOptions.colors"></apx-chart>
-            </div>
+            <app-review-heatmap *ngIf="restaurant" [restaurant]="restaurant"></app-review-heatmap>
           </div>
         </div>
       </div>
