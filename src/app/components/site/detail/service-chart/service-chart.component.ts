@@ -36,9 +36,12 @@ export type ChartOptions = {
   styleUrls: ["./service-chart.component.css"],
 })
 export class ServiceChartComponent implements OnInit {
-  @Input() restaurant: IRestaurantDetail;
-  @Input() prediction: IPredictionResponse;
-  @ViewChild("service-chart", { static: false }) serviceChart: ChartComponent;
+  @Input()
+  restaurant: IRestaurantDetail;
+  @Input()
+  prediction: IPredictionResponse;
+  @ViewChild("service-chart", { static: false })
+  serviceChart: ChartComponent;
   public serviceChartOptions: Partial<ChartOptions>;
 
   constructor() {
@@ -123,10 +126,12 @@ export class ServiceChartComponent implements OnInit {
           ],
           labels: dates,
           title: {
-            text: `Service Timeseries (Error: ${round(
-              this.prediction.error.service_error * 100,
-              2
-            )}%)`,
+            text: `Service Timeseries (Error: ${
+              round(
+                this.prediction.error.service_error * 100,
+                2,
+              )
+            }%)`,
             align: "left",
           },
         },

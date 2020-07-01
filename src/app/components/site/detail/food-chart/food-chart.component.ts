@@ -36,9 +36,12 @@ export type ChartOptions = {
   styleUrls: ["./food-chart.component.css"],
 })
 export class FoodChartComponent implements OnInit {
-  @Input() restaurant: IRestaurantDetail;
-  @Input() prediction: IPredictionResponse;
-  @ViewChild("food-chart", { static: false }) foodChart: ChartComponent;
+  @Input()
+  restaurant: IRestaurantDetail;
+  @Input()
+  prediction: IPredictionResponse;
+  @ViewChild("food-chart", { static: false })
+  foodChart: ChartComponent;
   public foodChartOptions: Partial<ChartOptions>;
 
   constructor() {
@@ -123,10 +126,12 @@ export class FoodChartComponent implements OnInit {
           ],
           labels: dates,
           title: {
-            text: `Food Timeseries (Error: ${round(
-              this.prediction.error.food_error * 100,
-              2
-            )}%)`,
+            text: `Food Timeseries (Error: ${
+              round(
+                this.prediction.error.food_error * 100,
+                2,
+              )
+            }%)`,
             align: "left",
           },
         },

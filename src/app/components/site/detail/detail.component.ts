@@ -10,6 +10,8 @@ import { IPredictionResponse } from "src/app/interfaces/prediction.interface";
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit {
+  isLoadingDetail: boolean = false;
+  isLoadingPrediction: boolean = false;
   restaurant: IRestaurantDetail;
   prediction: IPredictionResponse;
   restaurantId: string;
@@ -29,15 +31,15 @@ export class DetailComponent implements OnInit {
 
   async getRestaurantDetail() {
     try {
+      this.isLoadingDetail = true;
       const response = await this.apiService.getRestaurantDetail(
         this.restaurantId,
         this.month,
-        this.year
+        this.year,
       );
 
       this.restaurant = response;
-
-      console.log(this.restaurant);
+      this.isLoadingDetail = false;
     } catch (error) {
       console.log(error);
     }
@@ -45,17 +47,21 @@ export class DetailComponent implements OnInit {
 
   async getPrediction() {
     try {
+      this.isLoadingPrediction = true;
       const response = await this.apiService.getPredictions(
         this.restaurantId,
         0.5,
-        0.8
+        0.8,
       );
 
       this.prediction = response;
-
-      console.log(this.prediction);
+      this.isLoadingPrediction = false;
     } catch (error) {
       console.log(error);
     }
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
 }

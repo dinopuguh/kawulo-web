@@ -2,18 +2,47 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h5>{{restaurant.cluster.restaurant.name}}</h5><br>
-        <p><span>{{restaurant.cluster.restaurant.price_level}}</span></p>
-        <p class="reserve-description">{{restaurant.cluster.restaurant.ranking}}</p>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '30px'
+        }"></ngx-skeleton-loader>
+        <h5 *ngIf="!isLoadingDetail">{{restaurant.cluster.restaurant.name}}</h5><br>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '20px',
+          width:'20%'
+        }"></ngx-skeleton-loader><br *ngIf="isLoadingDetail">
+        <p *ngIf="!isLoadingDetail"><span>{{restaurant.cluster.restaurant.price_level}}</span></p>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '20px',
+          width:'40%'
+        }"></ngx-skeleton-loader>
+        <p *ngIf="!isLoadingDetail" class="reserve-description">{{restaurant.cluster.restaurant.ranking}}</p>
       </div>
       <div class="col-md-6">
         <div class="reserve-seat-block">
-          <div
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" appearance="circle" [theme]="{ 
+            'border-radius': '5px',
+            height: '60px',
+            width:'60px'
+          }"></ngx-skeleton-loader>
+          <div *ngIf="!isLoadingDetail"
             [className]="restaurant.cluster.cluster == 0 ? 'reserve-rating-low' : (restaurant.cluster.cluster == 1 ? 'reserve-rating-medium' : 'reserve-rating-high')">
             <i [className]="restaurant.cluster.cluster == 0 ? 'ti ti-thumb-down' : (restaurant.cluster.cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')"
               aria-hidden="true"></i>
           </div>
-          <div class="review-btn">
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+            'border-radius': '5px',
+            height: '40px',
+            width:'40%'
+          }"></ngx-skeleton-loader><br *ngIf="isLoadingDetail">
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+            'border-radius': '5px',
+            height: '20px',
+            width:'30%'
+          }"></ngx-skeleton-loader>
+          <div *ngIf="!isLoadingDetail" class="review-btn">
             <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
             <span>{{restaurant.cluster.restaurant.num_reviews}} reviews</span>
           </div>
@@ -25,66 +54,237 @@
 <section class="light-bg booking-details_wrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-8 responsive-wrap">
+      <div *ngIf="isLoadingDetail || isLoadingPrediction" class="col-md-8 responsive-wrap">
         <div class="booking-checkbox_wrap">
-          <app-service-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          <div *ngFor="let i of counter(3)" class="chart-loading">
+            <ngx-skeleton-loader [theme]="{ 
+            'border-radius': '5px',
+            margin:'5px',
+            height: '350px'
+          }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <div *ngFor="let i of counter(2)" class="chart-loading">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              margin:'5px',
+              height: '350px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <div class="customer-review_wrap mb-2" *ngFor="let i of counter(5)">
+            <div class="customer-content-wrap">
+              <div class="customer-content">
+                <div class="customer-review">
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
+                  <br>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div class="customer-review ml-5">
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
+                  <br>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div class="customer-review ml-5">
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
+                  <br>
+                </div>
+              </div>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px'
+              }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px',
+                width:'80%'
+              }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px',
+                width:'50%'
+              }"></ngx-skeleton-loader>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isLoadingDetail && !isLoadingPrediction" class="col-md-8 responsive-wrap">
+        <div class="booking-checkbox_wrap">
+          <app-service-chart [restaurant]="restaurant" [prediction]="prediction">
           </app-service-chart>
           <hr>
-          <app-value-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          <app-value-chart [restaurant]="restaurant" [prediction]="prediction">
           </app-value-chart>
           <hr>
-          <app-food-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          <app-food-chart [restaurant]="restaurant" [prediction]="prediction">
           </app-food-chart>
         </div>
         <div class="booking-checkbox_wrap mt-4">
-          <app-vader-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          <app-vader-chart [restaurant]="restaurant" [prediction]="prediction">
           </app-vader-chart>
           <hr>
-          <app-wordnet-chart *ngIf="restaurant && prediction" [restaurant]="restaurant" [prediction]="prediction">
+          <app-wordnet-chart [restaurant]="restaurant" [prediction]="prediction">
           </app-wordnet-chart>
         </div>
         <div class="booking-checkbox_wrap mt-4">
-          <app-review-list *ngIf="restaurant" [restaurant]="restaurant"></app-review-list>
+          <app-review-list [restaurant]="restaurant"></app-review-list>
         </div>
       </div>
-      <div class="col-md-4 responsive-wrap map-wrap">
-        <app-restaurant-info *ngIf="restaurant" [restaurant]="restaurant"></app-restaurant-info>
+      <div *ngIf="isLoadingDetail" class="col-md-4 responsive-wrap map-wrap">
+        <div class="contact-info">
+          <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '200px'
+            }"></ngx-skeleton-loader>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '80%'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '40%'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '60%'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address p-2">
+            <ngx-skeleton-loader count="5" [theme]="{ 
+              'border-radius': '5px',
+              height: '50px',
+              margin:'0'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div *ngFor="let i of counter(12)">
+              <ngx-skeleton-loader count="8" [theme]="{ 
+                'border-radius': '5px',
+                height: '40px',
+                width: '40px',
+                margin:'0',
+                'margin-right':'1px'
+              }"></ngx-skeleton-loader>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isLoadingDetail" class="col-md-4 responsive-wrap map-wrap">
+        <app-restaurant-info [restaurant]="restaurant"></app-restaurant-info>
         <div class="follow">
           <div id="map"></div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-service-stats *ngIf="restaurant" [restaurant]="restaurant"></app-service-stats>
+            <app-service-stats [restaurant]="restaurant"></app-service-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-value-stats *ngIf="restaurant" [restaurant]="restaurant"></app-value-stats>
+            <app-value-stats [restaurant]="restaurant"></app-value-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-food-stats *ngIf="restaurant" [restaurant]="restaurant"></app-food-stats>
+            <app-food-stats [restaurant]="restaurant"></app-food-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-vader-stats *ngIf="restaurant" [restaurant]="restaurant"></app-vader-stats>
+            <app-vader-stats [restaurant]="restaurant"></app-vader-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-wordnet-stats *ngIf="restaurant" [restaurant]="restaurant"></app-wordnet-stats>
+            <app-wordnet-stats [restaurant]="restaurant"></app-wordnet-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-overview-chart *ngIf="restaurant" [restaurant]="restaurant"></app-overview-chart>
+            <app-overview-chart [restaurant]="restaurant"></app-overview-chart>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <app-review-heatmap *ngIf="restaurant" [restaurant]="restaurant"></app-review-heatmap>
+            <app-review-heatmap [restaurant]="restaurant"></app-review-heatmap>
           </div>
         </div>
       </div>

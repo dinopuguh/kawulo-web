@@ -12,11 +12,12 @@ import { WordnetChartComponent } from "./wordnet-chart/wordnet-chart.component";
 import { OverviewChartComponent } from "./overview-chart/overview-chart.component";
 import { ReviewHeatmapComponent } from "./review-heatmap/review-heatmap.component";
 import { ReviewListComponent } from "./review-list/review-list.component";
-import { FoodStatsComponent } from './food-stats/food-stats.component';
-import { ServiceStatsComponent } from './service-stats/service-stats.component';
-import { ValueStatsComponent } from './value-stats/value-stats.component';
-import { VaderStatsComponent } from './vader-stats/vader-stats.component';
-import { WordnetStatsComponent } from './wordnet-stats/wordnet-stats.component';
+import { FoodStatsComponent } from "./food-stats/food-stats.component";
+import { ServiceStatsComponent } from "./service-stats/service-stats.component";
+import { ValueStatsComponent } from "./value-stats/value-stats.component";
+import { VaderStatsComponent } from "./vader-stats/vader-stats.component";
+import { WordnetStatsComponent } from "./wordnet-stats/wordnet-stats.component";
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,11 @@ import { WordnetStatsComponent } from './wordnet-stats/wordnet-stats.component';
     VaderStatsComponent,
     WordnetStatsComponent,
   ],
-  imports: [CommonModule, RouterModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgApexchartsModule,
+    NgxSkeletonLoaderModule,
+  ],
 })
 export class DetailModule {}

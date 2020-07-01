@@ -2,3 +2,16 @@
   max-width: 650px;
   margin: 35px auto;
 }
+
+.img-loading {
+  padding: 10px;
+}
+
+.chart-loading {
+  height: 400px;
+  padding-bottom: 10px;
+}
+
+.white-bg {
+  background-color: white;
+}
