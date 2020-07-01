@@ -3,7 +3,15 @@
   margin: 35px auto;
 }
 
-.img-restaurant {
-  height: 300px;
-  object-fit: cover;
+.img-loading {
+  padding: 10px;
+}
+
+.chart-loading {
+  height: 400px;
+  padding-bottom: 10px;
+}
+
+.white-bg {
+  background-color: white;
 }

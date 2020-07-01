@@ -1,0 +1,40 @@
+<h5>{{restaurant.sentiments.length}} Recent Reviews</h5>
+<p class="subtitle-review">{{restaurant.cluster.restaurant.num_reviews}} Total Reviews</p>
+<hr>
+<div class="customer-review_wrap mb-2" *ngFor="let sentiment of restaurant.sentiments">
+  <div class="customer-content-wrap">
+    <div class="customer-content">
+      <div class="customer-review">
+        <p>Service</p>
+        <span *ngFor="let item of counter(sentiment.service)"></span>
+        <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.service)"></span>
+        <br>
+        <p>Vader</p>
+        <span *ngFor="let item of counter(sentiment.vader)"></span>
+        <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.vader)"></span>
+      </div>
+      <div class="customer-review ml-5">
+        <p>Value</p>
+        <span *ngFor="let item of counter(sentiment.value)"></span>
+        <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.value)"></span>
+        <br>
+        <p>Wordnet</p>
+        <span *ngFor="let item of counter(sentiment.wordnet)"></span>
+        <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.wordnet)"></span>
+        <br>
+      </div>
+      <div class="customer-review ml-5">
+        <p>Food</p>
+        <span *ngFor="let item of counter(sentiment.food)"></span>
+        <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.food)"></span>
+        <br>
+        <br>
+      </div>
+    </div>
+    <p class="customer-text">{{sentiment.translated_text}}</p>
+    <p class="customer-text">Reviewed {{getDateFromNow(sentiment.published_date)}}</p>
+    <span>{{sentiment.month * 2}} people marked this review as helpful</span>
+    <a href="#"><span class="icon-like"></span>Helpful</a>
+  </div>
+  <hr>
+</div>

@@ -2,18 +2,47 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h5>{{restaurant.cluster.restaurant.name}}</h5><br>
-        <p><span>{{restaurant.cluster.restaurant.price_level}}</span></p>
-        <p class="reserve-description">{{restaurant.cluster.restaurant.ranking}}</p>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '30px'
+        }"></ngx-skeleton-loader>
+        <h5 *ngIf="!isLoadingDetail">{{restaurant.cluster.restaurant.name}}</h5><br>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '20px',
+          width:'20%'
+        }"></ngx-skeleton-loader><br *ngIf="isLoadingDetail">
+        <p *ngIf="!isLoadingDetail"><span>{{restaurant.cluster.restaurant.price_level}}</span></p>
+        <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+          'border-radius': '5px',
+          height: '20px',
+          width:'40%'
+        }"></ngx-skeleton-loader>
+        <p *ngIf="!isLoadingDetail" class="reserve-description">{{restaurant.cluster.restaurant.ranking}}</p>
       </div>
       <div class="col-md-6">
         <div class="reserve-seat-block">
-          <div
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" appearance="circle" [theme]="{ 
+            'border-radius': '5px',
+            height: '60px',
+            width:'60px'
+          }"></ngx-skeleton-loader>
+          <div *ngIf="!isLoadingDetail"
             [className]="restaurant.cluster.cluster == 0 ? 'reserve-rating-low' : (restaurant.cluster.cluster == 1 ? 'reserve-rating-medium' : 'reserve-rating-high')">
             <i [className]="restaurant.cluster.cluster == 0 ? 'ti ti-thumb-down' : (restaurant.cluster.cluster == 1 ? 'ti ti-hand-drag' : 'ti ti-thumb-up')"
               aria-hidden="true"></i>
           </div>
-          <div class="review-btn">
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+            'border-radius': '5px',
+            height: '40px',
+            width:'40%'
+          }"></ngx-skeleton-loader><br *ngIf="isLoadingDetail">
+          <ngx-skeleton-loader *ngIf="isLoadingDetail" [theme]="{ 
+            'border-radius': '5px',
+            height: '20px',
+            width:'30%'
+          }"></ngx-skeleton-loader>
+          <div *ngIf="!isLoadingDetail" class="review-btn">
             <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
             <span>{{restaurant.cluster.restaurant.num_reviews}} reviews</span>
           </div>
@@ -25,182 +54,237 @@
 <section class="light-bg booking-details_wrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-8 responsive-wrap">
+      <div *ngIf="isLoadingDetail || isLoadingPrediction" class="col-md-8 responsive-wrap">
         <div class="booking-checkbox_wrap">
-          <div id="service-chart">
-            <apx-chart [series]="serviceChartOptions.series" [chart]="serviceChartOptions.chart"
-              [xaxis]="serviceChartOptions.xaxis" [yaxis]="serviceChartOptions.yaxis" [fill]="serviceChartOptions.fill"
-              [dataLabels]="serviceChartOptions.dataLabels" [grid]="serviceChartOptions.grid"
-              [stroke]="serviceChartOptions.stroke" [title]="serviceChartOptions.title"
-              [labels]="serviceChartOptions.labels" [annotations]="serviceChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="value-chart">
-            <apx-chart [series]="valueChartOptions.series" [chart]="valueChartOptions.chart"
-              [xaxis]="valueChartOptions.xaxis" [yaxis]="valueChartOptions.yaxis" [fill]="valueChartOptions.fill"
-              [dataLabels]="valueChartOptions.dataLabels" [grid]="valueChartOptions.grid"
-              [stroke]="valueChartOptions.stroke" [title]="valueChartOptions.title" [labels]="valueChartOptions.labels"
-              [annotations]="valueChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="food-chart">
-            <apx-chart [series]="foodChartOptions.series" [chart]="foodChartOptions.chart"
-              [xaxis]="foodChartOptions.xaxis" [yaxis]="foodChartOptions.yaxis" [fill]="foodChartOptions.fill"
-              [dataLabels]="foodChartOptions.dataLabels" [grid]="foodChartOptions.grid"
-              [stroke]="foodChartOptions.stroke" [title]="foodChartOptions.title" [labels]="foodChartOptions.labels"
-              [annotations]="foodChartOptions.annotations"></apx-chart>
+          <div *ngFor="let i of counter(3)" class="chart-loading">
+            <ngx-skeleton-loader [theme]="{ 
+            'border-radius': '5px',
+            margin:'5px',
+            height: '350px'
+          }"></ngx-skeleton-loader>
           </div>
         </div>
         <div class="booking-checkbox_wrap mt-4">
-          <div id="vader-chart">
-            <apx-chart [series]="vaderChartOptions.series" [chart]="vaderChartOptions.chart"
-              [xaxis]="vaderChartOptions.xaxis" [yaxis]="vaderChartOptions.yaxis" [fill]="vaderChartOptions.fill"
-              [dataLabels]="vaderChartOptions.dataLabels" [grid]="vaderChartOptions.grid"
-              [stroke]="vaderChartOptions.stroke" [title]="vaderChartOptions.title" [labels]="vaderChartOptions.labels"
-              [annotations]="vaderChartOptions.annotations"></apx-chart>
-            <hr>
-          </div>
-          <div id="wordnet-chart">
-            <apx-chart [series]="wordnetChartOptions.series" [chart]="wordnetChartOptions.chart"
-              [xaxis]="wordnetChartOptions.xaxis" [yaxis]="wordnetChartOptions.yaxis" [fill]="wordnetChartOptions.fill"
-              [dataLabels]="wordnetChartOptions.dataLabels" [grid]="wordnetChartOptions.grid"
-              [stroke]="wordnetChartOptions.stroke" [title]="wordnetChartOptions.title"
-              [labels]="wordnetChartOptions.labels" [annotations]="wordnetChartOptions.annotations"></apx-chart>
+          <div *ngFor="let i of counter(2)" class="chart-loading">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              margin:'5px',
+              height: '350px'
+            }"></ngx-skeleton-loader>
           </div>
         </div>
         <div class="booking-checkbox_wrap mt-4">
-          <h5>{{restaurant.sentiments.length}} Recent Reviews</h5>
-          <p class="subtitle-review">{{restaurant.cluster.restaurant.num_reviews}} Total Reviews</p>
-          <hr>
-          <div class="customer-review_wrap mb-2" *ngFor="let sentiment of restaurant.sentiments">
+          <div class="customer-review_wrap mb-2" *ngFor="let i of counter(5)">
             <div class="customer-content-wrap">
               <div class="customer-content">
                 <div class="customer-review">
-                  <p>Service</p>
-                  <span *ngFor="let item of counter(sentiment.service)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.service)"></span>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
                   <br>
-                  <p>Vader</p>
-                  <span *ngFor="let item of counter(sentiment.vader)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.vader)"></span>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
                 </div>
                 <div class="customer-review ml-5">
-                  <p>Value</p>
-                  <span *ngFor="let item of counter(sentiment.value)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.value)"></span>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
                   <br>
-                  <p>Wordnet</p>
-                  <span *ngFor="let item of counter(sentiment.wordnet)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.wordnet)"></span>
-                  <br>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
                 </div>
                 <div class="customer-review ml-5">
-                  <p>Food</p>
-                  <span *ngFor="let item of counter(sentiment.food)"></span>
-                  <span class="round-icon-blank" *ngFor="let item of counter(5 - sentiment.food)"></span>
-                  <br>
+                  <ngx-skeleton-loader [theme]="{ 
+                    'border-radius': '5px',
+                    height: '15px',
+                    width: '70px'
+                  }"></ngx-skeleton-loader>
                   <br>
                 </div>
               </div>
-              <p class="customer-text">{{sentiment.translated_text}}</p>
-              <p class="customer-text">Reviewed {{getDateFromNow(sentiment.published_date)}}</p>
-              <span>{{sentiment.month * 2}} people marked this review as helpful</span>
-              <a href="#"><span class="icon-like"></span>Helpful</a>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px'
+              }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px',
+                width:'80%'
+              }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ 
+                'border-radius': '5px',
+                margin: '0',
+                height: '20px',
+                width:'50%'
+              }"></ngx-skeleton-loader>
             </div>
             <hr>
           </div>
         </div>
       </div>
-      <div class="col-md-4 responsive-wrap map-wrap">
-        <div class="contact-info">
-          <img src="{{restaurant.cluster.restaurant.photo.images.original.url}}" class="img-restaurant" alt="#">
-          <div class="address">
-            <span class="icon-location-pin"></span>
-            <p>{{restaurant.cluster.restaurant.address != '' ? restaurant.cluster.restaurant.address : '-'}}</p>
-          </div>
-          <div class="address">
-            <span class="icon-screen-smartphone"></span>
-            <p>{{restaurant.cluster.restaurant.phone != '' ? restaurant.cluster.restaurant.phone : '-'}}</p>
-          </div>
-          <div class="address">
-            <span class="icon-link"></span>
-            <a
-              href="{{restaurant.cluster.restaurant.website}}">{{restaurant.cluster.restaurant.website != '' ? restaurant.cluster.restaurant.website : '-'}}</a>
-          </div>
-          <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
+      <div *ngIf="!isLoadingDetail && !isLoadingPrediction" class="col-md-8 responsive-wrap">
+        <div class="booking-checkbox_wrap">
+          <app-service-chart [restaurant]="restaurant" [prediction]="prediction">
+          </app-service-chart>
+          <hr>
+          <app-value-chart [restaurant]="restaurant" [prediction]="prediction">
+          </app-value-chart>
+          <hr>
+          <app-food-chart [restaurant]="restaurant" [prediction]="prediction">
+          </app-food-chart>
         </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <app-vader-chart [restaurant]="restaurant" [prediction]="prediction">
+          </app-vader-chart>
+          <hr>
+          <app-wordnet-chart [restaurant]="restaurant" [prediction]="prediction">
+          </app-wordnet-chart>
+        </div>
+        <div class="booking-checkbox_wrap mt-4">
+          <app-review-list [restaurant]="restaurant"></app-review-list>
+        </div>
+      </div>
+      <div *ngIf="isLoadingDetail" class="col-md-4 responsive-wrap map-wrap">
+        <div class="contact-info">
+          <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '200px'
+            }"></ngx-skeleton-loader>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '80%'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '40%'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div class="address">
+            <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '20px',
+              width: '60%'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <ngx-skeleton-loader appearance="circle" [theme]="{ 
+              height: '200px',
+              width:'200px'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address p-2">
+            <ngx-skeleton-loader count="5" [theme]="{ 
+              'border-radius': '5px',
+              height: '50px',
+              margin:'0'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div class="contact-info mt-4">
+          <div class="address">
+            <div *ngFor="let i of counter(12)">
+              <ngx-skeleton-loader count="8" [theme]="{ 
+                'border-radius': '5px',
+                height: '40px',
+                width: '40px',
+                margin:'0',
+                'margin-right':'1px'
+              }"></ngx-skeleton-loader>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isLoadingDetail" class="col-md-4 responsive-wrap map-wrap">
+        <app-restaurant-info [restaurant]="restaurant"></app-restaurant-info>
         <div class="follow">
           <div id="map"></div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="service-sentiment-chart">
-              <apx-chart [series]="serviceSentimentChartOptions.series" [chart]="serviceSentimentChartOptions.chart"
-                [labels]="serviceSentimentChartOptions.labels" [theme]="serviceSentimentChartOptions.theme"
-                [title]="serviceSentimentChartOptions.title" [responsive]="serviceSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-service-stats [restaurant]="restaurant"></app-service-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="value-sentiment-chart">
-              <apx-chart [series]="valueSentimentChartOptions.series" [chart]="valueSentimentChartOptions.chart"
-                [labels]="valueSentimentChartOptions.labels" [theme]="valueSentimentChartOptions.theme"
-                [title]="valueSentimentChartOptions.title" [responsive]="valueSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-value-stats [restaurant]="restaurant"></app-value-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="food-sentiment-chart">
-              <apx-chart [series]="foodSentimentChartOptions.series" [chart]="foodSentimentChartOptions.chart"
-                [labels]="foodSentimentChartOptions.labels" [theme]="foodSentimentChartOptions.theme"
-                [title]="foodSentimentChartOptions.title" [responsive]="foodSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-food-stats [restaurant]="restaurant"></app-food-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="vader-sentiment-chart">
-              <apx-chart [series]="vaderSentimentChartOptions.series" [chart]="vaderSentimentChartOptions.chart"
-                [labels]="vaderSentimentChartOptions.labels" [theme]="vaderSentimentChartOptions.theme"
-                [title]="vaderSentimentChartOptions.title" [responsive]="vaderSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-vader-stats [restaurant]="restaurant"></app-vader-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="wordnet-sentiment-chart">
-              <apx-chart [series]="wordnetSentimentChartOptions.series" [chart]="wordnetSentimentChartOptions.chart"
-                [labels]="wordnetSentimentChartOptions.labels" [theme]="wordnetSentimentChartOptions.theme"
-                [title]="wordnetSentimentChartOptions.title" [responsive]="wordnetSentimentChartOptions.responsive">
-              </apx-chart>
-            </div>
+            <app-wordnet-stats [restaurant]="restaurant"></app-wordnet-stats>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="sentiment-chart">
-              <apx-chart [series]="sentimentChartOptions.series" [chart]="sentimentChartOptions.chart"
-                [dataLabels]="sentimentChartOptions.dataLabels" [plotOptions]="sentimentChartOptions.plotOptions"
-                [xaxis]="sentimentChartOptions.xaxis" [stroke]="sentimentChartOptions.stroke"
-                [fill]="sentimentChartOptions.fill" [title]="sentimentChartOptions.title"
-                [tooltip]="sentimentChartOptions.tooltip" [legend]="sentimentChartOptions.legend">
-              </apx-chart>
-            </div>
+            <app-overview-chart [restaurant]="restaurant"></app-overview-chart>
           </div>
         </div>
         <div class="contact-info mt-4">
           <div class="address">
-            <div id="review-heatmap">
-              <apx-chart [series]="reviewHeatmapOptions.series" [chart]="reviewHeatmapOptions.chart"
-                [dataLabels]="reviewHeatmapOptions.dataLabels" [title]="reviewHeatmapOptions.title"
-                [colors]="reviewHeatmapOptions.colors"></apx-chart>
-            </div>
+            <app-review-heatmap [restaurant]="restaurant"></app-review-heatmap>
           </div>
         </div>
       </div>

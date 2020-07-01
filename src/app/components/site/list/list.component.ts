@@ -18,6 +18,7 @@ interface Dropdown {
   styleUrls: ["./list.component.css"],
 })
 export class ListComponent implements OnInit {
+  isLoading: boolean = false;
   filterForm;
   layerGroup: L.LayerGroup;
   locationId: string;
@@ -38,7 +39,7 @@ export class ListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {
     this.filterForm = this.formBuilder.group({
       filterMonth: "",
@@ -78,7 +79,7 @@ export class ListComponent implements OnInit {
       this.month,
       this.year,
       this.limit,
-      this.page
+      this.page,
     );
     await this.markRestaurants(this.clusters);
   }
@@ -111,7 +112,7 @@ export class ListComponent implements OnInit {
       {
         maxZoom: 18,
         attribution: "Kawulo Map",
-      }
+      },
     );
 
     await tiles.addTo(this.map);
@@ -123,21 +124,23 @@ export class ListComponent implements OnInit {
     month: number,
     year: number,
     limit: number,
-    page: number
+    page: number,
   ) {
     try {
+      this.isLoading = true;
       const response = await this.apiService.getRestaurantClusters(
         location_id,
         month,
         year,
         limit,
-        page
+        page,
       );
 
       this.clusters = response.pages.active.map((d) => d);
       this.page = page;
       this.totalPages = response.total_pages;
       this.totalCount = response.total_count;
+      this.isLoading = false;
     } catch (err) {
       console.log(err);
     }
@@ -159,7 +162,7 @@ export class ListComponent implements OnInit {
         {
           title: c.restaurant.name,
           icon: L.icon({ iconUrl: icons[c.cluster], iconSize: [40, 50] }),
-        }
+        },
       );
 
       this.marker.addTo(this.layerGroup);
@@ -171,14 +174,14 @@ export class ListComponent implements OnInit {
     const selectedYear = formValue.filterYear;
 
     await this.router.navigateByUrl(
-      `list/${this.locationId}/${selectedMonth}/${selectedYear}`
+      `list/${this.locationId}/${selectedMonth}/${selectedYear}`,
     );
     await this.getClusters(
       this.locationId,
       selectedMonth,
       selectedYear,
       this.limit,
-      this.page
+      this.page,
     );
     await this.markRestaurants(this.clusters);
     this.month = selectedMonth;
@@ -191,8 +194,12 @@ export class ListComponent implements OnInit {
       this.month,
       this.year,
       this.limit,
-      page
+      page,
     );
     await this.markRestaurants(this.clusters);
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
 }

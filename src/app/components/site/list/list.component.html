@@ -35,72 +35,43 @@
           </div>
         </div>
 
-        <!--<div class="row detail-checkbox-wrap hidden">
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Bike Parking</span>
-                        </label>
-                    </div>
+        <div *ngIf="isLoading" class="row light-bg detail-options-wrap">
+          <div *ngFor="let in of counter(4)" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive mt-3">
+            <div class="featured-place-wrap">
+              <div class="img-loading">
+                <ngx-skeleton-loader [theme]="{ 
+              'border-radius': '5px',
+              height: '200px'
+            }"></ngx-skeleton-loader>
+              </div>
+              <div class="featured-title-box">
+                <ngx-skeleton-loader [theme]="{ 
+                  'border-radius': '5px',
+                  height: '30px'
+                }"></ngx-skeleton-loader>
+                <ngx-skeleton-loader [theme]="{ 
+                  'border-radius': '5px',
+                  height: '15px',
+                  width:'80%'
+                }"></ngx-skeleton-loader>
+                <ngx-skeleton-loader [theme]="{ 
+                  'border-radius': '5px',
+                  height: '15px',
+                  width:'50%'
+                }"></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Wireless Internet  </span>
-                        </label>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Smoking Allowed  </span>
-                        </label>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Street Parking</span>
-                        </label>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Special</span>
-                        </label>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Accepts Credit cards</span>
-                    </label>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Pets Friendly</span>
-                        </label>
-                    </div>
-                </div> -->
-
-        <div class="row light-bg detail-options-wrap">
+        <div *ngIf="!isLoading" class="row light-bg detail-options-wrap">
           <div *ngFor="let cluster of clusters" class="col-sm-6 col-lg-12 col-xl-6 featured-responsive mt-3">
             <div class="featured-place-wrap">
               <a routerLink="/detail/{{ cluster.restaurant.location_id }}/{{
                   month
                 }}/{{ year }}" routerLinkActive="active">
                 <div class="img-container">
-                  <img src="{{ cluster.restaurant.photo.images.large.url }}" class="img-restaurant" alt="#" />
+                  <img src="{{ cluster.restaurant.photo.images.large.url }}" class="img-restaurant" />
                 </div>
                 <span [className]="
                     cluster.cluster == 0
